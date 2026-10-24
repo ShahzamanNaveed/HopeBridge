@@ -1,0 +1,14 @@
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+datasource db {
+  provider = "postgresql"
+}
+// Infrastructure marker only; no business domain schema is finalized.
+model FoundationMarker {
+  id Int @id
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  @@map("foundation_markers")
+}

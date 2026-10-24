@@ -1,0 +1,26 @@
+{
+  "brand": "ShipLens",
+  "switchLanguage": "اردو",
+  "navigation": "Main navigation",
+  "skip": "Skip to content",
+  "foundation": "Building a connected organisation",
+  "pages": {
+    "home": "Home",
+    "about": "About",
+    "programs": "Programs",
+    "branches": "Branches",
+    "events": "Events",
+    "get-involved": "Get Involved",
+    "contact": "Contact"
+  },
+  "dashboard": "Management portal",
+  "intro": "One shared place for branches and head office to coordinate their work.",
+  "placeholder": "This page is reserved for organisational content in a later milestone.",
+  "statusTitle": "Repository foundation",
+  "status": "The application shell is ready for development. Branch, volunteer, finance and reporting features are not implemented yet.",
+  "dashboardNotice": "This is a public shell preview. Authentication, permissions and dashboard figures will be implemented in later milestones.",
+  "footer": "ShipLens · Engineering foundation",
+  "notFound": "Page not found",
+  "error": "Something went wrong",
+  "backHome": "Return home"
+}

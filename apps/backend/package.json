@@ -1,0 +1,41 @@
+{
+  "name": "@shiplens/backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node --env-file-if-exists=../../.env dist/server.js",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json",
+    "test": "vitest run --coverage",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.0.0",
+    "@prisma/client": "^7.0.0",
+    "@shiplens/contracts": "0.1.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "pg": "^8.16.0",
+    "pino": "^10.0.0",
+    "pino-http": "^11.0.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/pg": "^8.15.0",
+    "@types/supertest": "^6.0.0",
+    "@vitest/coverage-v8": "^5.0.5",
+    "prisma": "^7.0.0",
+    "supertest": "^7.1.0",
+    "tsx": "^4.20.0",
+    "vitest": "^5.0.5"
+  }
+}
