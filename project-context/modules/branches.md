@@ -10,10 +10,12 @@ Planned APIs (proposed, no routes implemented): Branch registration, review and 
 
 Planned data relationships (not a finalized ERD): Branches and responsible users.
 
-Business rules: Only the stated responsibility is confirmed; detailed policies remain pending. Use transactions for critical state changes and preserve financial/audit integrity.
+Official Requirements: Branch statuses are Forming, Active, Paused and Closed; exact transitions are pending.
+
+Confirmed HWF Decisions: Operational branches are distinct from the single Central Head Office. Multiple branches may share a city; Head Office and a branch may share an address. Independent operations/reporting require a separate branch. Initially one Branch Lead is assigned per branch, with multiple members allowed. Unique database IDs and automatic concurrency-safe city codes follow [domain rules](../../docs/domain-rules.md); codes are never reused and survive city changes. Authorize data access by branch ID.
 
 Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 
-Unresolved questions: Lifecycle states and approving roles. See ../../docs/requirements/clarifications.md.
+Pending Decisions: Registration approvals, allowed status transitions, pause/closure effects, city-prefix registry and lead assignment details. See [clarifications](../../docs/requirements/clarifications.md).

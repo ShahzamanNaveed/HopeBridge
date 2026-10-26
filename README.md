@@ -1,6 +1,6 @@
 # ShipLens - HopeBridge repository
 
-Milestone 0 foundation for a branch-to-head-office management platform. The repository root is HopeBridge; package scope remains @shiplens. Business features are planned, not implemented.
+Milestone 0 foundation for HopeBridge Welfare Foundation (HWF), a fictional community welfare NGO for the ShipLens challenge. Confirmed organisation and business decisions are in project-context/01-project-overview.md and docs/domain-rules.md. The repository root is HopeBridge; package scope remains @shiplens. Business features are planned, not implemented.
 
 ## Local setup
 

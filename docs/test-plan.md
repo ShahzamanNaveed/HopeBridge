@@ -6,4 +6,6 @@ A separate integration suite uses the real Prisma adapter, SELECT 1, the migrate
 
 Playwright verifies navigation, the honest portal shell, recovery from unknown routes and Urdu RTL. Extend with responsive/accessibility checks and approved business workflows later.
 
-Competition acceptance remains pending: official sample-data dashboard reconciliation, complete audited report lifecycle, exhaustive server permissions and live Render/CI verification. Do not replace these with placeholder passing tests.
+Four mandatory pass/fail acceptance criteria are required, but their exact official definitions remain unavailable; do not label the following verification areas as the official four. Competition acceptance remains pending: official sample-data dashboard reconciliation, complete audited report lifecycle, exhaustive server permissions and live Render/CI verification. Do not replace these with placeholder passing tests.
+
+Planned business checks must cover concurrent/non-reused branch codes, stable global member identifiers, atomic exactly-one-member acceptance, application validation/duplicate safeguards, branch statuses, seven-day edit-lock boundaries, auto-draft and invalid report transitions, immutable approved figures, monthly trends/unsent collections, and CSV/PDF exports. Detailed assertions depend on [pending decisions](requirements/clarifications.md). Use synthetic personal data only; no new business tests have been implemented.

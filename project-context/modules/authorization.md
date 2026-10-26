@@ -10,10 +10,12 @@ Planned APIs (proposed, no routes implemented): Policy enforcement on each prote
 
 Planned data relationships (not a finalized ERD): Roles, permissions and user/branch assignments.
 
-Business rules: Only the stated responsibility is confirmed; detailed policies remain pending. Use transactions for critical state changes and preserve financial/audit integrity.
+Official Requirements: Server-enforced permissions and branch isolation for exactly five authenticated roles.
+
+Confirmed HWF Decisions: Primary responsibilities are in [permissions](../../docs/permissions.md); they are not complete grants. HR is centralized at Head Office. Members are not a login role. Deny by default and authorize branch data using branch IDs; names/cities/addresses are not identifiers.
 
 Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 
-Unresolved questions: Exact role grants and cross-branch visibility. See ../../docs/requirements/clarifications.md.
+Pending Decisions: Exact role-action grants, cross-branch visibility and assignment/delegation policies. See [clarifications](../../docs/requirements/clarifications.md).

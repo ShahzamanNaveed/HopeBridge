@@ -8,12 +8,14 @@ Dependencies: collections, weekly reports, authorization.
 
 Planned APIs (proposed, no routes implemented): Scoped summary and reporting endpoints. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Derived aggregates over approved source data.
+Planned data relationships (not a finalized ERD): Derived aggregates over collections and reports; exact source/approval filters depend on each metric.
 
-Business rules: Only the stated responsibility is confirmed; detailed policies remain pending. Use transactions for critical state changes and preserve financial/audit integrity.
+Official Requirements: Head Office dashboard with correct figures, monthly trends and unsent collections; CSV/PDF export is required, with detailed scope pending.
+
+Confirmed HWF Decisions: Head Office provides central oversight and is not an operational branch. Finance Reviewer monitors unsent collections. Server-enforced permissions and branch isolation apply.
 
 Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 
-Unresolved questions: Official formulae and sample-data expected totals. See ../../docs/requirements/clarifications.md.
+Pending Decisions: Formulae, unsent definition, official expected sample totals, visibility and export scope/fields/grants. Aggregation sources must be defined per metric; do not assume unsent figures come only from approved reports. See [clarifications](../../docs/requirements/clarifications.md).

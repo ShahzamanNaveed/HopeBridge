@@ -10,10 +10,12 @@ Planned APIs (proposed, no routes implemented): login, logout and current-sessio
 
 Planned data relationships (not a finalized ERD): Users, credentials and persistent sessions.
 
-Business rules: Only the stated responsibility is confirmed; detailed policies remain pending. Use transactions for critical state changes and preserve financial/audit integrity.
+Official Requirements: Five authenticated roles; see [permissions](../../docs/permissions.md).
+
+Confirmed HWF Decisions: Staff accounts are provisioned administratively and access a separate portal route. Public visitors and volunteer applicants need no account; members have no separate login role. No separate Head Office Admin role. Public navigation has no Login/Sign Up buttons. Existing session/Argon2id architecture remains planned, not implemented.
 
 Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 
-Unresolved questions: Session expiry, password policy and recovery. See ../../docs/requirements/clarifications.md.
+Pending Decisions: Authorized provisioning process, session expiry, password policy and recovery. See [clarifications](../../docs/requirements/clarifications.md).

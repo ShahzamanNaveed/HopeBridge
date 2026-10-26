@@ -10,10 +10,12 @@ Planned APIs (proposed, no routes implemented): Member listing and approved upda
 
 Planned data relationships (not a finalized ERD): Members and approved applications.
 
-Business rules: Only the stated responsibility is confirmed; detailed policies remain pending. Use transactions for critical state changes and preserve financial/audit integrity.
+Official Requirements: Approved member management.
+
+Confirmed HWF Decisions: Application acceptance creates exactly one member atomically. Members are records without separate login accounts. Each has one primary branch initially and an automatically generated globally unique identifier (example HWF-000001), unchanged on transfer. Application references are separate. Branch Lead manages assigned branch members; detailed grants remain pending.
 
 Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 
-Unresolved questions: Membership identifiers and archival policy. See ../../docs/requirements/clarifications.md.
+Pending Decisions: Exact identifier formatting/overflow, transfer workflow, permitted updates and archival policy. See [clarifications](../../docs/requirements/clarifications.md).

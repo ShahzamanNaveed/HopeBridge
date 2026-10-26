@@ -1,6 +1,24 @@
 # Permission matrix - pending approval
 
-Five confirmed roles: Super Admin, Finance Reviewer, Content Editor, Branch Lead, HR Lead. Exact grants and cross-branch boundaries require the official handbook.
+## Official Requirements
+
+Exactly five authenticated roles with server-enforced permissions and branch isolation.
+
+## Confirmed HWF Decisions
+
+| Role             | Primary responsibility                                         |
+| ---------------- | -------------------------------------------------------------- |
+| Super Admin      | Users, branches and overall administration                     |
+| Finance Reviewer | Approve/return weekly reports and monitor unsent collections   |
+| Content Editor   | Manage and publish public website content                      |
+| Branch Lead      | Manage assigned branch members, collections and weekly reports |
+| HR Lead          | Review and accept/decline volunteer applications               |
+
+No separate Head Office Admin role. HR operations are centralized at Head Office initially. Volunteers are member records, not another login role; public visitors need no authentication. Staff accounts are provisioned through an authorized administrative process.
+
+## Pending Decisions
+
+Responsibilities do not constitute a complete action-level permission matrix. Exact grants and cross-branch boundaries remain pending; the table below does not negate the confirmed responsibilities.
 
 | Resource/workflow              | Super Admin | Finance Reviewer | Content Editor | Branch Lead | HR Lead |
 | ------------------------------ | ----------- | ---------------- | -------------- | ----------- | ------- |

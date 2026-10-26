@@ -6,14 +6,16 @@ Requirements/responsibilities: implement this scope from the supplied brief with
 
 Dependencies: collections, authorization, audit.
 
-Planned APIs (proposed, no routes implemented): Draft, submit, return, resubmit, approve and lock actions. Final paths and schemas await design approval.
+Planned APIs (proposed, no routes implemented): Auto-draft, submit, return, resubmit, approve and lock actions. Final paths and schemas await design approval.
 
 Planned data relationships (not a finalized ERD): Report snapshots, source collections and transition history.
 
-Business rules: The confirmed lifecycle is draft -> submit -> return -> resubmit -> approve -> lock; audit every transition atomically. Use transactions for critical state changes and preserve financial/audit integrity.
+Official Requirements: Auto-draft, submit, return, resubmit, approve and lock. The recorded draft -> submit -> return -> resubmit -> approve -> lock sequence is not a complete transition graph. Approved report figures are immutable even after source edits. Audit every transition atomically; use transactions for critical changes.
+
+Confirmed HWF Decisions: Branch Lead manages assigned branch weekly reports; Finance Reviewer approves/returns reports. These responsibilities do not finalize every transition permission.
 
 Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 
-Unresolved questions: Week boundaries, totals, approval/locking authority. See ../../docs/requirements/clarifications.md.
+Pending Decisions: Week boundaries/timezone, auto-draft trigger/content, totals, full transition graph, detailed grants, lock authority/timing and immutable snapshot design. See [clarifications](../../docs/requirements/clarifications.md).
