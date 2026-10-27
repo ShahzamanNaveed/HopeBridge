@@ -34,9 +34,11 @@ Review and trace system changes through permitted audit records. This is a propo
 ## Business Rules
 
 - **Confirmed constraints from this workflow request:** Audit records are append-only. No user, including Super Admin, may edit or delete them through the application. Important state-changing operations generate appropriate audit entries atomically with their business changes.
+- **SA-001 - DECIDED:** Temporary passwords must never enter audit records or logs; audit responses are not a controlled one-time provisioning mechanism.
+- **SA-002 / SA-004 - DECIDED:** Authorized role changes and atomic lead replacements/related account changes require audit entries, excluding credentials. Record previous/new assignment changes while retaining historical audit and business records; failed transactions preserve existing lead/access.
 - Audit detail must never expose passwords, tokens or secrets. Before/after values are displayed only when available and permitted; this is not a requirement to store sensitive raw values.
 - **Official Requirements:** Audit changes and report transitions and preserve immutable approved report figures. This viewing activity does not create a business mutation; transactions belong to the source mutation workflows, not to an invented audit-edit action.
-- **Pending Decisions:** Retention, exact read permissions/scope, available filters, export permissions and personal-information handling/redaction. System-wide CSV/PDF requirements do not imply an approved audit-export grant. Application append-only rules do not settle retention or privileged database-maintenance policy.
+- **PENDING:** Retention, exact read permissions/scope, available filters, export permissions and personal-information handling/redaction. System-wide CSV/PDF requirements do not imply an approved audit-export grant. Application append-only rules do not settle retention or privileged database-maintenance policy.
 
 ## Postconditions
 
@@ -72,6 +74,6 @@ flowchart TD
 - Missing read grants deny access; listing, filtering and direct entry requests enforce approved scope on the server.
 - Valid queries return only permitted records; empty results and retrieval failures do not fabricate or modify history.
 - Detail includes the specified metadata and available permitted before/after values without passwords, tokens or secrets.
-- Application edit/delete attempts fail even for Super Admin.
+- Application edit/delete attempts fail even for Super Admin; role/replacement audit entries preserve history and never include temporary passwords.
 - Source business changes and appropriate audit entries commit atomically; a failed audit write cannot leave a committed associated mutation.
 - No audit-export permission or retention policy is inferred. These are future verification targets, not executed tests.
