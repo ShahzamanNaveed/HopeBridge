@@ -25,7 +25,7 @@ Return a Submitted revision for branch review while retaining source evidence an
 2. Finance Reviewer inspects exact collections, authorized adjustments/remittance context and selects Return with review explanation.
 3. Validate current state/revision and mandatory trimmed nonempty meaningful reason; no Return may commit without it.
 4. Begin transaction; concurrency-safely recheck Submitted/state/revision/permission, set Returned, store feedback/actor/time and append transition audit. Commit together.
-5. Branch Lead reads feedback, makes only BL-001/BL-002 eligible corrections and [resubmits](../branch-lead/submit-and-resubmit-weekly-report.md) with a new revision/event.
+5. Branch Lead reads feedback and latest legitimately eligible Returned calculation, makes only BL-001/BL-002 valid corrections and [resubmits](../branch-lead/submit-and-resubmit-weekly-report.md) with a new immutable revision/submitter/time/event. Preserve prior frozen submitted evidence; no age reset or silent rewrite. Valid zero-activity reports follow the same flow.
 
 ## Alternative / Error Flows
 
@@ -39,7 +39,17 @@ Return a Submitted revision for branch review while retaining source evidence an
 - BL-001: strict authoritative created_at + 7 x 24 hours; exactly cutoff fails. BL-002: Returned correctable only inside original age window and without immutable inclusion; Submitted remains locked until formal Return.
 - **FIN-002 - DECIDED:** Expired original stays unchanged; correction goes to separate auditable next-report adjustment under approved governance, not a historic snapshot edit.
 - **FIN-004 - DECIDED:** Approved is already final-locked; no normal return path or later manual lock exists.
-- Use exact monetary evidence and atomic audit; no invented official fixture amounts or payment processing.
+- **FIN-010 - DECIDED:** Financial evidence uses PKR NUMERIC(18,2)/Prisma Decimal, decimal-string APIs and decimal-safe arithmetic/comparisons; no JavaScript number money calculations. Reject nonfinite/unsupported precision/range, float-derived values and direct input with more than two fractional digits, never silently round it. Explicit HALF_UP only when calculation genuinely needs rounding; atomic audit, no invented fixtures/payments.
+
+- **FIN-011 - DECIDED:** Scoped netRecognizedCollections minus confirmedRemittances gives signedOutstanding, possibly negative; show reconciliationDeficit = max(0, -signedOutstanding) separately to authorized Finance/Head Office. availableToRemit = max(0, signedOutstanding - active pending reservations), without double deficit deduction. Return does not rewrite original transactions, confirmed remittances or Approved snapshots, create a compensating payment/write-off, or permit over-remittance; exact external recovery/settlement remains PENDING.
+- **FIN-012 - DECIDED:** Return is not remittance cancellation. Own-branch Branch Lead may request Pending cancellation; only Finance approves/rejects through [separate remittance workflow](confirm-head-office-remittance.md). Request/rejection retains Pending remittance/reservation, approval atomically cancels/releases once/audits. Concurrent confirmation/cancellation has one valid result; Confirmed cannot directly cancel/delete.
+- **FIN-013 - DECIDED:** Source Branch Lead may request sequential original-linked corrections, one PendingReview per original; Finance decides/audits each. Recheck original plus all Approved deltas (including awaiting recognition) plus candidate >= zero in approval transaction. Only each Approved is recognized once in eligible period; Rejected has zero effect and a closed request does not bar later requests. Preserve locked original and Approved snapshots. See [adjustments](review-financial-adjustments.md); Return grants no cutoff override.
+- **WR-004 - DECIDED:** Finance approval must recheck only unresolved issues capable of materially changing candidate eligible figures by branch/report/recognition scope. Unrelated branches/periods/non-affecting requests do not automatically block; no unapproved inclusion or blanket submission rule. Reassess after resolution; occurrence/recognition/reviewed periods distinguished. Exact multi-period treatment needs specification, not reopening basic relevance policy.
+
+- **WR-003 - DECIDED:** Return preserves old immutable submission revision; Returned latest eligible figures may reflect permitted changes under original cutoff/state rules. Resubmit preserves old actor/time/evidence and captures new immutable revision, freezing it while Submitted. Approved final snapshot remains immutable after later financial events; Approved cannot Return.
+- **WR-005/WR-006 - DECIDED:** Valid zero-activity report may Return with required nonempty reason through normal role/state/version checks. Return versus approval/duplicate Return must have one compatible outcome, state/feedback/revision context/audit atomic and safe conflict rollback. No separate manual Lock or Approved -> Draft/Returned.
+
+- **FIX-04 / FIN-018 / FIN-009 - DECIDED:** Adjustment request reason is mandatory/nonempty, adjustment attachment optional; remittance evidence upload optional. These are distinct from FIN-008 mandatory report Return reason. Missing optional file alone is not grounds to reject an otherwise valid adjustment/remittance; file cannot replace reason or financial checks. Exact allowed types/size limits/storage mechanism, external bank-evidence validation and external settlement/disputes remain PENDING. Return changes none of these policies.
 
 ## Postconditions
 
@@ -74,7 +84,11 @@ flowchart TD
 - Cutoff/immutable restrictions unchanged; expired errors cannot be solved by direct original edit.
 - Return/approve race cannot both commit; failed transaction leaves prior report state. Future tests only, not executed here.
 
+- Return preserves FIN-010 exact amounts and FIN-011 explicit deficit/nonnegative availability; it does not cancel remittances, release reservations or overwrite historic transactions. Sequential corrections retain FIN-013 cumulative checks and exactly-once recognition without a lifetime-one-adjustment restriction. These are future criteria, not executed tests.
+
+- Planned WR tests: Returned recalculation is age/state eligible without modifying prior submitted snapshot; resubmit captures new preserved revision. Zero-activity Return reason and normal flow work without fabricated transactions. Stale/version/role conflicts and Return/approve races leave no partial state/audit; final Approved snapshot cannot reopen. Relevant approval checks remain in approval workflow; no tests executed.
+
 ## Pending Decisions
 
-- FIN-006 evidence, sequential adjustment limits, Finance adjustment decision explanations and negative/remitted-cash reconciliation.
-- Financial notifications and finer review constraints not settled by FIN-008. Return reason mandatory status and adjustment creation/approval authority are DECIDED.
+- Exact attachment file-size/type/storage configuration, Finance adjustment decision explanations, exact external deficit clearing/refund/recovery and cross-period settlement, confirmed-remittance dispute investigation/authority/accounting, external bank evidence validation and exceptional settlement details. FIN-010 money, FIN-011 signed deficit, FIN-012 Pending cancellation and FIN-013 sequential/cumulative invariants are DECIDED.
+- Financial notifications and finer review constraints not settled by FIN-008, exact multi-period issue treatment and Closed post-closure reporting. WR-003/WR-004/WR-005/WR-006 revision/relevance/zero-activity/concurrency rules, Return reason and adjustment ownership are DECIDED.

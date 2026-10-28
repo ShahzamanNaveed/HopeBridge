@@ -51,7 +51,9 @@ Create and maintain HWF operational branches. This workflow is not implemented. 
 | Closed         | None                |
 
 - **SA-006 - DECIDED: Branch Activation Requirements.** Forming may temporarily have no lead, but Forming/Paused can become Active only with an already assigned eligible active Branch Lead. SA-003's one-branch rule applies; inactive staff do not qualify. Backend checks apply even if Activate is hidden; activation and audit commit atomically. Assignment alone never changes status.
-- **PENDING:** Exact registration fields, other operating restrictions for Paused/Closed branches and prefix administration. Lifecycle transitions, terminal closure and initial Forming-without-lead policy are no longer pending.
+- **PENDING:** Exact registration fields, remaining operating restrictions for Paused/Closed beyond FIN-014, exact post-closure pre-closure-discovery recognition container/period and prefix administration. Lifecycle transitions, terminal closure and initial Forming-without-lead policy are no longer pending.
+
+- **FIN-014 - DECIDED:** Closure retains original collections, existing Submitted/Returned/Approved reports and immutable snapshots, adjustment/remittance/audit/member histories. Closed remains terminal; prohibit new ordinary offline collections/ordinary future-week reports or pretending Active. Legitimate pre-closure obligations may need separately audited Finance reconciliation under existing role scope, preserving occurrence/recognition metadata. Exact post-closure-discovery recognition container/accounting period for pre-closure Late Entry/Approved adjustment remains PENDING; no new report type/reopened Approved snapshot/access for inactive or unassigned lead. Active/Paused automatic drafts unchanged; closure cannot bypass SA-004/AUTH safeguards.
 
 ## Postconditions
 
@@ -98,6 +100,8 @@ flowchart TD
     R --> Z
     S --> Z
 ```
+
+Closure must leave historical financial/report/member/audit evidence intact; new ordinary Closed-branch collection and ordinary future-week generation denied, authorized historical reads preserved and unauthorized settlement/inactive or unassigned lead requests denied. These are planned FIN-014 tests, not executed.
 
 ## Acceptance Criteria
 

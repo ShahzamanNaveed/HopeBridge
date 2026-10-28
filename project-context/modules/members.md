@@ -4,7 +4,7 @@ Purpose: Approved member records.
 
 Requirements/responsibilities: implement this scope from the supplied brief with backend validation, server-enforced permissions and appropriate branch scoping. Do not infer undocumented rules.
 
-Dependencies: applications, branches, authorization.
+Dependencies: authoritative branches, authorization and shared audit. Applications invokes member decision ports; members does not import applications repositories or require a cyclic implementation dependency.
 
 Planned APIs (proposed, no routes implemented): Member listing and approved updates. Final paths and schemas await design approval.
 
@@ -23,6 +23,14 @@ Confirmed HWF Decisions (DECIDED):
 - **BL-004 - DECIDED:** Source Branch Lead requests transfer from their authorized branch; HR Lead approves/rejects. Only approved transfer changes current primary branch; no direct Branch Lead transfer, cross-branch escalation, new member or replacement ID. Preserve original ID/prefix/key across cities and historical source-branch attribution, with atomic transfer audit and concurrency validation. BL-004 requires member Active and different target Active at request and rechecked HR approval, with current source ownership/freshness validated. Consent, unfinished finance/report handling and other unresolved transfer details remain pending.
 
 Authoritative identity and lifecycle details: [HR identification workflow](../../docs/flows/hr-lead/volunteer-identification.md).
+
+**APP-007 - DECIDED:** Valid anonymous public submission creates one Pending application/reference with normalized contacts, explicit consent version/server timestamp and submission audit, never member/staff account/Volunteer ID. Only later authorized initial HR acceptance rechecks Active operational branch and atomically commits Accepted, exactly one Active member/selected-branch-authoritative-city permanent ID and decision audit. Existing reversal to linked Inactive member and reacceptance of that same member/ID remain unchanged; no new allocation/old assignment reopening. See [APP-001 to APP-008 form contract](applications.md) for intake, consent and normalized-contact safeguards; no extra member fields/login permissions introduced.
+
+Planned acceptance: public success persists no member/ID/account; initial HR acceptance rolls back all member/decision/audit effects on failure, and reacceptance preserves the original ID. No tests executed.
+
+Integration ownership: established backend/frontend module `members`. Own member status/permanent city Volunteer ID/team assignments/search/filter/transfer records. Application decision coordinator supplies approved decision/link/branch context to member commands using one transaction/audit; staff account roles remain separate. HR transfer approval composes branch checks; unresolved transfer paths remain gated. See [shared integration contracts](../../docs/architecture.md) and [API categories](../../docs/api.md). These are planned interfaces, not implemented services.
+
+Documentation coverage gap: the known member-management scope includes team/operational-role/status management and search/filter. Existing workflow specifies scoped search/filter and Active-only permitted assignment with audited endings, but exact searchable/filterable fields, team/operational-role taxonomy, assignment action fields/validation, general edit/status/archival authority and independent-module state conflicts are not finalized. An operational volunteer role is not a sixth staff role. Obtain owner decisions for those affected actions; do not invent grants or declare full member-module readiness.
 
 Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
 

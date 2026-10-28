@@ -54,25 +54,25 @@ Define first acceptance, decline, both reversals and same-member reacceptance. P
 - **HR-009 - DECIDED:** Authorized HR Lead only; trimmed nonempty reversal reason; no extra Super Admin approval. Audit staff identity, application reference, previous/new status, linked-member effect, reason and timestamp without secrets/unnecessary sensitive data. Pending cannot be reversed.
 - **HR-010 - DECIDED:** No 7-day, 30-day or other fixed reversal limit. Historical timestamps stay unchanged; reversal has a new timestamp. Current authorization, integrity and eligibility still apply; no history deletion.
 
-
 - **HWF-XM-001 - DECIDED:** First ID prefix comes exclusively from selected operational branch's authoritative city at initial successful acceptance. Read its current city metadata, not applicant residence/location, HR office, free text or blindly its immutable historical branch code. Same-city branches share the sequence. Reacceptance reuses original member/ID even if current branch city differs.
 - **HWF-XM-002 - DECIDED:** Inactive members cannot receive new collections on their behalf, new team assignments, new volunteer activity/participation or Active-required actions. Backend enforces this for authorized staff; no Volunteer login role. Preserve member/ID, historical assignments/collections/reports/audit and financial amounts. Legitimate unpaid/unrouted collections remain in financial reporting/reconciliation until authorized finance handling. No invented exception to the separate seven-day collection-correction policy. BL-005 atomically ends current active team assignments on inactivation, preserving records/start dates and end metadata; no deletion. Stale assignments never permit new work. Reactivation does not recreate ended/cancelled/historical assignments.
 - **HWF-XM-003 - DECIDED:** Source Branch Lead requests member transfer; HR Lead approves/rejects. No direct Branch Lead branch change; see [identity contract](volunteer-identification.md) for scope and pending transfer policy, separate from applicant decisions.
 - **HWF-XM-004 - DECIDED:** Email the application address for each committed initial acceptance/decline, reversal and reacceptance, using application reference and appropriate committed decision status. Never include confidential duplicate matches, internal audit or credentials. Delivery failure cannot roll back decision/member/audit. Outbox/job mechanism is RECOMMENDED, not finalized; record processing outcome, support investigation/retry as designed and do not guarantee delivery. No sensitive applicant/credential notification logs.
 
-
 - **BL-005 - DECIDED:** Every authorized Active-to-Inactive transition, including Accepted reversal, ends all currently active team assignments in the same transaction as application/member/audit changes. Record end metadata and assignment effects without deleting history or changing start dates, ID, branch history, collections/reports/amounts. Any assignment-ending failure rolls back reversal too. Reacceptance does not restore ended assignments; new ones require explicit authorized Branch Lead action.
 
-| Operation | Application Before | Application After | Member Effect |
-| --- | --- | --- | --- |
-| First acceptance | Pending | Accepted | Create one Active member |
-| Decline | Pending | Declined | No member created; reject incompatible link |
-| Reverse decline | Declined | Pending | No member created |
-| Reverse acceptance | Accepted | Pending | Existing member Inactive |
-| Reaccept after accepted reversal | Pending | Accepted | Same member Active |
-| Fresh reapplication after decline | New submission | New Pending record | No member on submission |
+| Operation                         | Application Before | Application After  | Member Effect                               |
+| --------------------------------- | ------------------ | ------------------ | ------------------------------------------- |
+| First acceptance                  | Pending            | Accepted           | Create one Active member                    |
+| Decline                           | Pending            | Declined           | No member created; reject incompatible link |
+| Reverse decline                   | Declined           | Pending            | No member created                           |
+| Reverse acceptance                | Accepted           | Pending            | Existing member Inactive                    |
+| Reaccept after accepted reversal  | Pending            | Accepted           | Same member Active                          |
+| Fresh reapplication after decline | New submission     | New Pending record | No member on submission                     |
 
 Current application states remain Pending, Accepted and Declined. Atomic operations recheck authorization/state, branch/contact/member constraints, save changes and append decision/audit history; never overwrite old events.
+
+- **APP-004/APP-007 - DECIDED boundary:** Public submission validates approved fields/consent/Active branch, stores normalized trim-lowercase email/canonical +923XXXXXXXXX mobile and consent version/server timestamp, then atomically creates Pending/reference/audit only. Later HR acceptance independently rechecks selected Active branch and eligible contacts excluding legitimate self-links, commits initial Accepted/member/selected-branch-city ID/audit atomically, or reactivates same member/ID on reacceptance. APP-001 to APP-008 add no staff role, new reversal state or automatic reassignment; existing HR/XM behaviors unchanged. See [application contract](../../../project-context/modules/applications.md).
 
 ## Postconditions
 
@@ -150,6 +150,6 @@ flowchart TD
 
 - Independent-module member-state conflicts beyond decided assignment-ending effects; minimum new-work prohibition is DECIDED and cannot be bypassed. Affected integrations need safe policy before implementation.
 - New Decline on Pending with retained member needs a compatible non-destructive policy; reject incompatible linkage, never infer deletion/unlinking.
-- City-code governance/new-city assignment, reference format, precise normalization and proposed form details remain pending; selected-branch city source is DECIDED.
+- City-code governance/new-city assignment, reference format and additional option catalogues/unapproved limits/supported raw mobile-input configuration remain pending; APP-001 to APP-008 fields/bounds/Active intake/trim-lowercase email/canonical mobile/explicit consent/rate-honeypot/localization and selected-branch ID city source are DECIDED. Exact legal consent wording/retention/public privacy page and deployment tuning remain unresolved, not the approved form controls.
 - Transfer consent, source-branch status at approval, financial handling, expiry/cancellation and duplicate-request details remain pending in the identity contract; BL-004 Active-member/Active-target request/approval checks are DECIDED; request/approval ownership is DECIDED.
 - Email provider, retry limits, templates, sending infrastructure and exact outcome presentation/processing mechanism remain PENDING; decision email and post-commit failure isolation are DECIDED.

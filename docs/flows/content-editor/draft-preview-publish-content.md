@@ -11,7 +11,7 @@ Define the authoritative reusable draft/preview/publication workflow for program
 ## Preconditions
 
 - Valid authenticated active Content Editor with backend permission for item/action on every internal request, including preview; UI hiding is insufficient.
-- Content type/item/revision identities are valid; type-specific required field schema must be approved before publication validation is implemented.
+- Content type/item/revision identities are valid; CMS-001 to CMS-003 approve type-specific required fields in the [content contract](../../../project-context/modules/content-management.md); validation is not implemented.
 - No Super Admin approval is required for normal CMS publication. No Publisher role is introduced; five staff roles remain.
 
 ## Inputs and Outputs
@@ -45,6 +45,8 @@ Define the authoritative reusable draft/preview/publication workflow for program
 - Logical visibility is independent of revision state: an item can have a Draft and a live Published revision, or none live; historical published revisions are not automatically current public content. Do not flatten all into one contradictory status.
 - Backend limits Content Editor to CMS, not staff/branch lifecycle/assignment, HR decisions, financial entries/reports/remittances or restricted internal audit. Preview/private revisions require authorization; public APIs select only currently published nonarchived content. No online payments or real personal/CNIC sample content.
 - Safely validate/render localized rich text against script injection. If media supported validate type/size, disallow executables, hide private paths and require bilingual alt text for meaningful images; exact media/editor/sanitizer implementation remains PENDING.
+
+- **CMS-001 to CMS-007 - DECIDED:** Validate approved Program/Event/Page mandatory fields, including Event location/start/end > start in Asia/Karachi, before same-revision bilingual Publish; optional images never required. Server sanitize rich text against scripts/handlers/dangerous URLs for public AND authorized Preview. Validate image actual content/metadata/safe format/configured size/storage and safe revision references; filename/MIME alone untrusted, private paths hidden. Preview cannot bypass Publish authorization. Archive/Unpublish immediately hides list/detail/cache while preserving seven routes/history. [Full contracts and 20 future scenarios](../../../project-context/modules/content-management.md).
 
 ## Postconditions
 
@@ -96,5 +98,5 @@ flowchart TD
 
 ## Pending Decisions
 
-- Exact mandatory per-type fields/limits, rich-text format/sanitization library, media types/dimensions/storage/limits, publication cache invalidation mechanics and editorial notifications.
+- Additional per-type constraints beyond CMS-001 to CMS-003, rich-text format/editor/sanitization library, safe image-format allowlist/dimensions/storage/size/transformation choices, cache mechanism and editorial notifications. Required fields, server sanitization/safe upload controls and immediate retirement visibility are DECIDED.
 - Archived restoration/republication policy and specialized optional-section fallbacks. High-level CE-001 to CE-003 requirements are final.

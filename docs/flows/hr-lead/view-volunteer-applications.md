@@ -51,6 +51,10 @@ View, search and monitor public applications through centralized Head Office HR.
 
 - **OFFICIAL / retained HWF:** Five authenticated roles, centralized HR, English/Urdu RTL, no online payments and synthetic-only sample/test personal data. Branch Lead, Content Editor and Finance Reviewer cannot accept/decline/reverse HR decisions; HR does not inherit their unrelated operations.
 
+- **BL-005 - DECIDED:** Any authorized member inactivation atomically ends all current active team assignments with end metadata and member/assignment audit. Preserve original starts, member identity and historical financial records; reactivation never automatically restores ended assignments. This viewing activity performs none of those mutations.
+
+- **APP-004/APP-005/APP-007/APP-008 - DECIDED:** Intake uses normalized eligible email OR phone safeguards, explicit consent version/server timestamp and localized safe acknowledgement after atomic Pending-only submission. HR list/detail remains protected; original submission metadata/history may be reviewed only within approved HR scope, never public/private-data leakage. No member/account/Volunteer ID on public submission; review creates none. [Application contract](../../../project-context/modules/applications.md) finalizes APP-001 to APP-008 without changing HR decision/reversal authority.
+
 ## Postconditions
 
 - Read flow returns permitted records/history or a safe error/empty state without status/member/audit changes.
@@ -101,5 +105,5 @@ flowchart TD
 
 ## Pending Decisions
 
-- Final reference format, pagination limits, precise normalization specifications and any rejected-submission monitoring.
-- Email provider/retry/template/infrastructure and exact notification-outcome UI remain PENDING; decision email/failure isolation are DECIDED. Current active-assignment transitions on Inactive members remain unresolved, but no new work is allowed. Reversal state/authority/timing remain DECIDED.
+- Final reference format, pagination limits, additional unapproved catalogues/raw mobile-input configuration, nonconclusive identity-review details and any rejected-submission monitoring. APP-004 trim/lowercase email and canonical +923XXXXXXXXX mobile matching are DECIDED, not awaiting normalization-policy approval.
+- Email provider/retry/template/infrastructure and exact notification-outcome UI remain PENDING; decision email/failure isolation are DECIDED. BL-005 assignment-ending behavior is DECIDED: every authorized inactivation ends all current active team assignments with end metadata and required member/assignment audit atomically, preserving identity, starts, history and financial records. Reactivation never automatically restores ended assignments; other independent-module state conflicts remain pending. Reversal state/authority/timing remain DECIDED.

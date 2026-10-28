@@ -11,11 +11,11 @@ Create, revise, preview and publish bilingual public program information for Edu
 ## Preconditions
 
 - Active authenticated Content Editor; backend authorizes each CMS item/action, including Draft preview.
-- Existing program identity/revision required for edits. Exact content-type field schema still PENDING, not an implemented contract.
+- Existing program identity/revision required for edits. CMS-001 fields are DECIDED; no implemented contract exists.
 
 ## Inputs and Outputs
 
-- **PROPOSED field schema:** English/Urdu title and public description, optional media and desired editorial action. Required localized fields follow the approved type schema; CE-002 requires both required languages, not every optional field.
+- **CMS-001 - DECIDED:** English/Urdu title, summary and description required for Publish in the same revision; optional image, publication/workflow status and display ordering supported. Incomplete translations may be saved as Draft; image absence never blocks Publish. No new compulsory programme categories.
 - Stable item and Draft/live revision/version metadata, output incomplete saved Draft/private preview/committed published program with audit.
 - Supporting media if enabled must be validated/safely stored, with bilingual meaningful-image alt text and no private path exposure.
 
@@ -42,6 +42,8 @@ Create, revise, preview and publish bilingual public program information for Edu
 - **CE-003 - DECIDED:** Published content immutable in place; edit via new Draft, preserve old live/historical revision and atomic switch/audit; reject stale concurrent versions.
 - Public program descriptions do not grant financial account, member, operational branch or restricted audit access. Backend prevents cross-domain mutation; safe rich-text/media only. No payments/real personal or CNIC sample data.
 - **CE-005 - DECIDED:** Published programs retire through archive/unpublish with identity/revisions/relationships/audit preserved, never normal hard delete. Exact restoration policy remains PENDING.
+
+- **CMS-004/CMS-005/CMS-007 - DECIDED:** Backend sanitizes rich text and validates actual image content/metadata/format/size/storage references for safe protected preview/publication; optional image absence valid. Retire lists/detail/cache immediately while preserving history. [Full contract](../../../project-context/modules/content-management.md).
 
 ## Postconditions
 
@@ -89,6 +91,8 @@ flowchart TD
 - Failed publish retains old public version; unsafe content/media rejected. Editorial changes cannot mutate member/branch/finance records.
 - Four HWF programme areas reflected in planned public content; future tests only, not implementation/evidence of completed content.
 
+- Planned CMS-001 acceptance: complete bilingual title/summary/description publishes without image; missing any required translation blocks Publish, not Draft. Ordering retained; unsafe rich text/images fail safely. Future tests only.
+
 ## Pending Decisions
 
-- Exact required program fields/constraints, media formats/storage/limits, rich-text sanitizer/editor, cache invalidation, editorial notices and archived restoration. Proposed field examples are not official required schema.
+- Additional constraints beyond CMS-001, safe format allowlist/dimensions/size/storage/transformation/editor/sanitizer implementation, cache mechanism, editorial notices and archived restoration. Core fields/safety/publication controls are DECIDED.

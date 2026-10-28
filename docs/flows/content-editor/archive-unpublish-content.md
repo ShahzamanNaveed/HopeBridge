@@ -47,6 +47,8 @@ Remove eligible public CMS content from active publication or retire it from act
 - Protect Home, About, Programs, Branches, Events, Get Involved and Contact routes, public navigation and application backend/HR validation. Hiding editorial section cannot disable them; staff portal remains separate and public needs no account.
 - CMS permissions do not grant staff/Branch Lead assignment, operational branch status, HR acceptance, collections/report/remittance or restricted internal audit access. Safe localized content/media, no real personal/CNIC sample data or online payments.
 
+- **CMS-003/CMS-007 - DECIDED:** Immediately exclude retired items from public lists AND detail/direct-ID endpoints; revise/invalidate caches so newly fetched content cannot display retired data as live. Preserve identity/revisions/audit with permission-scoped staff history and safe fallback at seven mandatory routes; no arbitrary slug removal/Draft fallback. Cache mechanism and restoration remain pending, not the visibility guarantee.
+
 ## Postconditions
 
 - Success hides eligible item from current publication or archives it, retaining authorized internal history and mandatory public functionality with committed audit.
@@ -89,4 +91,4 @@ flowchart TD
 
 - Exact archived restoration/republication lifecycle, repeat-action/confirmation UI details and any state-specific archive eligibility beyond approved high-level authority.
 - Cache invalidation/visibility coordination mechanism, fallback content for hidden optional/mandatory editorial sections and editorial notifications.
-- Media storage/type/size limits, rich-text editor/sanitizer and per-type schema remain pending in the shared lifecycle; no new deletion right.
+- Safe format allowlist/storage/size/dimension/transformation choices and rich-text editor/sanitizer implementation remain pending; CMS-001 to CMS-003 schemas and CMS-005 safety checks are DECIDED, no new deletion right.

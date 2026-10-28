@@ -15,21 +15,21 @@ Review Pending applications or processed-decision reversal eligibility without c
 
 ## Inputs
 
-The public form below is **PROPOSED**, including its required flags; it is not an approved finalized form schema.
+APP-001 requiredness below is DECIDED for public submission, not an implemented form schema or an HR action to collect consent again. APP-002 limits: name 2-100 characters, email max 254, motivation 20-1000; valid supported Pakistani mobile canonical +923XXXXXXXXX. See [full APP contract](../../../project-context/modules/applications.md) for additional catalogues/technical choices.
 
-| Field            | Required |
-| ---------------- | -------- |
-| Full Name        | Yes      |
-| Email            | Yes      |
-| Phone Number     | Yes      |
-| City             | Yes      |
-| Preferred Branch | Yes      |
-| Area of Interest | Yes      |
-| Motivation       | Yes      |
-| Availability     | No       |
+| Public application field            | Required at submission                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------ |
+| Full Name                           | Yes                                                                            |
+| Email                               | Yes                                                                            |
+| Pakistani Mobile Number             | Yes                                                                            |
+| City                                | Yes                                                                            |
+| Preferred Active Operational Branch | Yes                                                                            |
+| Area of Interest                    | Yes                                                                            |
+| Motivation                          | Yes                                                                            |
+| Availability                        | No                                                                             |
+| Privacy/data-processing consent     | Yes; explicit checked consent, approved text version/server timestamp retained |
 
 Areas of interest: Education Support, Food Assistance, Healthcare Support and Emergency Relief. Review input is the application reference/internal identity, not an issued Volunteer ID. Validate public inputs on frontend/backend; backend remains authoritative.
-
 
 For processed review, include existing decision, decline reason where applicable, linked member and a proposed reversal reason. Reversal requires a trimmed nonempty reason, no extra Super Admin approval and no fixed deadline.
 
@@ -37,7 +37,7 @@ For processed review, include existing decision, decline reason where applicable
 
 1. HR Lead opens application; backend authorizes HR review and loads application, branch, original member link and decision history.
 2. Determine type: Pending without member is first-time review; Pending with original Inactive member after accepted reversal is reacceptance review; Accepted/Declined is reversal/history review. Unexpected linkage/state is an integrity error, never a reason to create another member.
-3. Normalize contacts and compare HR-001 eligible records, excluding own application and legitimately linked member. Display exact conflicts separately from nonconclusive similar-name warnings.
+3. Use APP-004 trim/lowercase email and valid supported Pakistani mobile canonical +923XXXXXXXXX when comparing HR-001 eligible records, excluding own application and legitimately linked member. Display exact conflicts separately from nonconclusive similar-name warnings.
 4. Display the selected operational branch's authoritative current city/city-code metadata: it alone determines first Volunteer ID prefix, never applicant residence/location, office or free text. First acceptance/reacceptance requires Active selected branch and fresh transactional checks. Reacceptance reuses original member/ID without city allocation; no silent reassignment.
 5. Decline requires trimmed nonempty reason and compatible linked state. A new Decline with a retained member requires safe policy; do not delete/detach that member.
 6. Reversal review shows original reason/actor/time. Require reversal reason: Declined returns same Pending/reference after other-contact checks, no member; Accepted returns Pending with same member Inactive, history intact, regardless of branch Active status or decision age.
@@ -66,11 +66,13 @@ For processed review, include existing decision, decline reason where applicable
 - **HR-010 - DECIDED:** No fixed reversal time limit; retain original timestamps and append reversal timestamp; current integrity/permission checks apply.
 
 - **HWF-XM-001 - DECIDED:** Verify selected branch authoritative city before first acceptance; residence never overrides it. Reacceptance retains original ID regardless of current branch city.
-- **HWF-XM-002 - DECIDED:** Show linked membership status separately from application status. Inactive member is not an applicant with no member; block new collections, team/activity assignments and Active-required work through backend staff operations. Preserve identity, historical assignments/financial amounts/reports/audit and unpaid/unrouted collections. Stale assignments grant no new participation; reactivation does not recreate old assignments.
-- **HWF-XM-003 - DECIDED:** Branch Lead requests transfer from authorized source branch; HR approves/rejects. Only approved transfer changes current primary branch with identity/history/audit preserved. Detailed eligibility/financial effects remain PENDING in the identity contract; dedicated transfer activity is planned, not created.
+- **HWF-XM-002 - DECIDED:** Show linked membership status separately from application status. Inactive member is not an applicant with no member; block new collections, team/activity assignments and Active-required work through backend staff operations. Preserve identity, historical assignments/financial amounts/reports/audit and unpaid/unrouted collections. BL-005 requires every authorized inactivation to end all current active team assignments with end metadata and member/assignment audit in the same transaction, preserving original starts, identity, history and financial records. Stale assignments grant no new participation; reactivation does not recreate ended assignments.
+- **HWF-XM-003 - DECIDED:** Branch Lead requests transfer from authorized source branch; HR approves/rejects. Only approved transfer changes current primary branch with identity/history/audit preserved. BL-004 requires member Active and a different Active target, with source ownership/freshness and eligibility rechecked at request and HR approval. The [Branch Lead transfer workflow](../branch-lead/request-member-transfer.md) documents initiation and HR approval/rejection; it is not implemented. Target-lead consent, in-progress finance/report handling, source status at final approval, cancellation/expiry, decision reasons and notifications remain PENDING.
 - **HWF-XM-004 - DECIDED:** Reviewing alone sends no decision email. Email follows a committed acceptance/decline/reversal/reacceptance; failed delivery cannot undo application/member changes. See [decision workflow](approve-decline-application.md).
 
 - **OFFICIAL / retained HWF:** Centralized HR does not inherit staff/finance/content/branch operations. Branch Lead, Content Editor and Finance Reviewer cannot decide/reverse HR applications. No public CNIC requirement, real CNIC use or real personal sample/test data; no public comparison details. Review remains read-only with English/Urdu RTL and no payments.
+
+- **APP-001 to APP-008 - DECIDED intake boundary:** Review authorized approved form data/normalized contacts and original consent version/server timestamp, with no CNIC/mandatory sensitive additions. Active-only public branch intake and server/honeypot/rate/consent/localized validation belong to [submission](../public-visitor/submit-volunteer-application.md); fields/legal text/configuration distinction follows module contract. Public success creates Pending only, HR first acceptance alone creates member/city ID atomically; reversal/reacceptance retain identity. Reviewing grants no new public-data or member-change permission and does not require redoing public consent or submission.
 
 ## Postconditions
 
@@ -113,5 +115,5 @@ flowchart TD
 
 ## Pending Decisions
 
-- Final proposed form, precise normalization/similarity thresholds and identity resolution beyond HR-001.
-- Current assignment termination/preservation on Inactive members, independent-module state conflicts, pending transfer eligibility/finance details, email provider/retries/templates and safe treatment of a new Decline with retained member can block affected implementation paths. Inactive new-work restrictions, selected-branch city source, transfer ownership and decision email are DECIDED. Core reversal/reacceptance state, authority and time policy are DECIDED.
+- Additional city/interest/availability catalogues/unapproved limits/supported raw mobile-input configuration and nonconclusive similarity/identity resolution beyond APP-004/HR-001; exact legal consent wording/retention/privacy-page publication and rate/honeypot tuning. Approved fields/limits/Active intake/email/mobile canonical rules/consent control/anti-abuse/localization are DECIDED, not a proposed form.
+- Independent-module state conflicts beyond BL-005 assignment ending, remaining transfer consent/finance/report/cancellation/expiry/reason/notification details, source status at final approval, email provider/retries/templates and safe treatment of a new Decline with retained member can block affected implementation paths. Inactive new-work restrictions and atomic assignment ending, selected-branch city source, BL-004 Active-member/different-Active-target request/approval checks, transfer ownership and decision email are DECIDED. Core reversal/reacceptance state, authority and time policy are DECIDED.

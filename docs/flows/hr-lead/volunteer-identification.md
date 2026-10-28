@@ -5,7 +5,7 @@
 
 ## Purpose
 
-Define permanent city-based volunteer/member identification within the [acceptance transaction](approve-decline-application.md). The newly selected format applies in these HR workflows; older global-format examples elsewhere are deliberately unchanged by this file-scoped task.
+Define permanent city-based volunteer/member identification within the [acceptance transaction](approve-decline-application.md). The approved city-based format applies to permanent member identity across acceptance, reversal, reacceptance and transfer.
 
 ## Preconditions
 
@@ -22,7 +22,7 @@ Define permanent city-based volunteer/member identification within the [acceptan
 | ---------- | ------------------- | --------------------- |
 | Lahore     | LHR-001, LHR-002    | LHR-V0001, LHR-V0002  |
 | Faisalabad | FSD-001, FSD-002    | FSD-V0001, FSD-V0002  |
-| Islamabad  | ISB-001            | ISB-V0001             |
+| Islamabad  | ISB-001             | ISB-V0001             |
 
 `V` distinguishes volunteer/member identity from branch identity; numbering is per city, not per branch.
 
@@ -34,7 +34,7 @@ Define permanent city-based volunteer/member identification within the [acceptan
 4. **Accepted reversal:** Require trimmed nonempty reason. Restore application Pending, set original linked member Inactive and end all current active team assignments with end metadata in the same transaction, retaining original starts/assignment history, primary key/ID/branch/transfer/operational history and appending AcceptedReversed member/assignment audit. No new ID, release or deletion; branch need not be Active and no fixed deadline or extra Super Admin approval applies.
 5. Acceptance/reacceptance sets Accepted and appends decision/history/audit. Commit all changes together; failure rolls back all related changes; expose only committed outcomes.
 6. Source Branch Lead may request transfer for an Active member in their own branch to a different Active operational branch; HR Lead reviews/approves or rejects across branches. Only valid HR approval changes current `branch_id` atomically, retaining original prefix/ID/key and historical attribution. Operational details remain PENDING; this is a concise cross-module contract, not a complete transfer state machine.
-7. **PROPOSED planning contract:** Source lead identifies source/target and proposes a reason; backend checks actor/source scope and current member branch, records Pending transfer request; HR reviews member/branches/reason. Approval revalidates authorization, member Active, different target Active, current source assignment and request freshness, updates one primary branch and records decision/audit atomically. Rejection records decision/audit without branch change. Notify parties only under the later approved transfer communication policy. The [transfer activity](../branch-lead/request-member-transfer.md) now documents request/approval; remaining operational policies are still pending.
+7. **Transfer contract (reason field PROPOSED; remaining details PENDING):** Source lead identifies source/target and proposes a reason; backend checks actor/source scope and current member branch, records Pending transfer request; HR reviews member/branches/reason. Approval revalidates authorization, member Active, different target Active, current source assignment and request freshness, updates one primary branch and records decision/audit atomically. Rejection records decision/audit without branch change. Notify parties only under the later approved transfer communication policy. The [transfer activity](../branch-lead/request-member-transfer.md) now documents request/approval; remaining operational policies are still pending.
 
 ## Alternative / Error Flows
 
@@ -71,12 +71,11 @@ Define permanent city-based volunteer/member identification within the [acceptan
 
 - **OFFICIAL alignment:** Automatic unique member creation, branch-associated members, backend authorization, atomic audit history and PostgreSQL concurrency safety. No extra staff role/account, payments or implemented transfer capability is introduced.
 
-
-| Applicant Residence | Selected Branch | Illustrative issued ID |
-| --- | --- | --- |
-| Faisalabad | Lahore LHR-001 | LHR-V0001 |
-| Lahore | Faisalabad FSD-001 | FSD-V0001 |
-| Lahore | Lahore LHR-002 | LHR-V0002 |
+| Applicant Residence | Selected Branch    | Illustrative issued ID |
+| ------------------- | ------------------ | ---------------------- |
+| Faisalabad          | Lahore LHR-001     | LHR-V0001              |
+| Lahore              | Faisalabad FSD-001 | FSD-V0001              |
+| Lahore              | Lahore LHR-002     | LHR-V0002              |
 
 Numbers illustrate the next available city counter; they are not guaranteed allocation results.
 

@@ -15,7 +15,7 @@ Maintain authorized bilingual editorial sections of the seven required public pa
 
 ## Inputs and Outputs
 
-- Required page identifier, Draft/version and localized editorial sections. **PROPOSED examples:** hero/mission/vision/descriptive copy, program/event introductions, Get Involved information, contact descriptions and approved media; exact required section schema is PENDING. Do not invent official vision text.
+- **CMS-003 - DECIDED:** Controlled page identifier/slug, EN/UR title and body, revision/publication status. Required translated title/body complete for Publish; partial Draft allowed. Additional sections/page copy remain pending; no invented official vision. Slug edits cannot remove mandatory routes.
 - Outputs incomplete saved Draft/private preview or committed published page editorial revision, not route/schema/access-control changes.
 - Dynamic Programs/Events use their CMS items; approved public Branches details come from authorized branch data. No arbitrary CMS HTML replacing application forms.
 
@@ -44,6 +44,8 @@ Maintain authorized bilingual editorial sections of the seven required public pa
 - **CE-005 - DECIDED:** Archive/unpublish preserves content/history; cannot physically delete published content or mandatory page routes. Required navigation/form remains functional without Login/Sign Up buttons; staff portal uses separate direct route.
 - CMS editorial copy cannot change operational branch lifecycle/codes, HR decisions, staff, finance or backend authorization. Never replace account-free volunteer form with arbitrary CMS HTML or bypass backend input validation.
 - Rich-text/media safe rendering required; no executables/private paths, real personal/CNIC sample content or online payment integration.
+
+- **CMS-004/CMS-005/CMS-007 - DECIDED:** Backend validates both-language same-revision title/body and sanitizes rich text for public/private preview; safe staff-only image upload checks apply. Immediate public list/detail/cache retirement preserves identity/history and required routes with safe unavailable fallback, never Draft/staff metadata. [Full contract](../../../project-context/modules/content-management.md).
 
 ## Postconditions
 
@@ -87,7 +89,9 @@ flowchart TD
 - Direct CMS requests cannot change operational branch/HR/staff/finance/access-control data; public branch details keep authorized source data.
 - Missing/unpublished editorial content cannot remove mandatory route or replace form validation. Future tests only; no website implementation is claimed.
 
+- Planned CMS-003 acceptance: missing EN/UR title/body rejects Publish; arbitrary slug edits cannot break any required route; retired content gives safe fallback without Draft disclosure. Future tests only.
+
 ## Pending Decisions
 
-- Exact per-page required field/section schemas and approved page copy/branding, mandatory-route safe fallback presentation and specialized optional-section fallbacks.
+- Additional per-page sections/constraints and approved page copy/branding, specific mandatory-route safe fallback presentation and specialized optional-section fallbacks. CMS-003 title/body/controlled identifier and route protection are DECIDED.
 - Rich-text format/sanitizer, media storage/limits, cache invalidation, archive restoration/republication and editorial notifications.

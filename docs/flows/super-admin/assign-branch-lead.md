@@ -20,7 +20,7 @@ Assign or replace an operational branch's authorized lead. SA-002 through SA-004
 3. Super Admin selects a candidate for first assignment or selects a different candidate to replace the existing lead. Related deactivation/role changes originate from [staff management](manage-staff-accounts.md).
 4. System validates the branch, candidate's single role/active status, current assignment and one-branch constraint; an existing lead requires the replacement path.
 5. In one database transaction, system rechecks current assignment and candidate eligibility, applies assignment/replacement and related authorized account changes, revokes old branch access when replacing, and records previous/new assignments and related changes in audit entries. Database constraints prevent conflicting assignments.
-6. On commit, system confirms assignment success without changing branch status. An eligible active assigned lead makes a Forming/Paused branch eligible for a separate Super Admin activation request under SA-005/SA-006; assignment never automatically activates it. Every subsequent protected request enforces current role and branch assignment, so existing sessions/cached authorization cannot retain old branch access.
+6. On commit, system confirms assignment success without changing branch status. An eligible active assigned lead makes a Forming/Paused branch eligible for a separate Super Admin activation request under SA-005/SA-006; assignment never automatically activates it. AUTH-006 immediately invalidates affected sessions or equivalently enforces current role/branch/active status server-side, so no old session/cache retains former-branch authority. Active branch remains accountably led throughout replacement; outgoing still-active account gains no automatic other branch and retains only independently authorized current permissions.
 
 ## Alternative / Error Flows
 
@@ -38,6 +38,9 @@ Assign or replace an operational branch's authorized lead. SA-002 through SA-004
 - **SA-006 - DECIDED: Branch Activation Requirements.** A Forming branch may temporarily exist without a lead. Forming/Paused can become Active only with an eligible active lead already assigned under SA-003; inactive staff do not qualify. Assignment enables eligibility only and never changes status; backend separately validates and atomically audits activation through [Manage Branches](manage-branches.md).
 - Each operational branch is intended to have one assigned Branch Lead; the initial Forming period may precede assignment under SA-006. Existing-lead replacement is allowed subject to authorization; this does not authorize transferring a candidate out of another branch without satisfying that branch's replacement requirement.
 - **PENDING:** Additional replacement approval and detailed eligibility beyond active/single-role/unassigned-elsewhere checks. These do not permit removing an existing lead without replacement or multiple simultaneous branches.
+
+- **AUTH-006 - DECIDED:** Revoke affected sessions or use equally immediate server-enforced invalidation within approved atomic assignment/account changes. Existing cookies cannot retain old branch scope; Active branch must never become leaderless. No automatic new branch/multi-branch grant; still-active outgoing account follows current independently authorized role/assignment only. Append sanitized actor/old-new assignment audit; failure preserves prior assignment/access/history.
+- **AUTH-003/AUTH-004/AUTH-005 - DECIDED security boundary:** Every protected request rechecks current role/branch/active status under revocable 8h-idle/24h-absolute server sessions and CSRF/Origin controls. Related deactivation immediately revokes all target sessions; reactivation restores none. No raw session identifiers/credentials in audit; [security specification](../../security.md) applies without adding role permissions.
 
 ## Postconditions
 
@@ -63,7 +66,7 @@ flowchart TD
     H -->|Yes| J{"System: valid different replacement selected?"}
     J -->|No| X
     J -->|Yes| K["Prepare replacement, related account changes and old-access revocation"]
-    I --> T["DB transaction: revalidate and enforce constraints; save changes and access; write audit entries"]
+    I --> T["DB transaction: revalidate constraints/Active-branch leadership; save changes; immediately revoke affected sessions or invalidate old branch scope; write sanitized audit"]
     K --> T
     T --> Q{"System: transaction committed?"}
     Q -->|No| R["System: rollback; preserve existing lead and access"]
@@ -82,3 +85,5 @@ flowchart TD
 - Old sessions/cached grants cannot access the former branch after replacement, and altered request IDs cannot bypass branch isolation.
 - Active lead assignment to Forming/Paused enables eligibility for a separate activation check but never automatically activates; Forming may initially have no lead.
 - Members, collections, reports and audit history remain unchanged. These are future verification targets, not completed tests.
+
+- AUTH-006 future checks: outgoing old session/cached branch claims fail immediately after replacement; Active branch retains eligible leadership, no automatic other-branch access. Related account deactivation revokes all sessions; failed assignment/account/audit writes leave old lead/access intact. No executed-test claim.

@@ -2,7 +2,7 @@
 
 **Primary Actor:** Content Editor
 **Supporting Actors:** Backend CMS/authorization/audit and trusted event-time classification; public visitors read currently published events.
-**Status:** CE-001 to CE-004 DECIDED; schedule representation details PENDING; not implemented or tested
+**Status:** CE-001 to CE-004 DECIDED; CMS-002/CMS-006 scheduling DECIDED; not implemented or tested
 
 ## Purpose
 
@@ -15,7 +15,7 @@ Manage bilingual event drafts/revisions and automatically classify published eve
 
 ## Inputs and Outputs
 
-- **PROPOSED field schema:** en/ur title/description; valid start time, end timestamp or supported date-only schedule; public venue where applicable; optional supported branch/program association/media and publication action. Exact required per-type fields PENDING.
+- **CMS-002 - DECIDED:** Required for Publish: EN/UR title and description, start date/time, end date/time and location. Optional image; publication/workflow status. Interpret schedule in Asia/Karachi, persist unambiguous comparison-ready timestamps and validate end > start server-side; localized EN/UR date/time display. No compulsory image.
 - No mandatory registration, ticketing or payment functionality. Associations do not grant branch/program operational edit permission.
 - Output Draft/private preview or committed bilingual Published revision with computed Upcoming/Past display and retained history/audit.
 
@@ -31,19 +31,21 @@ Manage bilingual event drafts/revisions and automatically classify published eve
 ## Alternative / Error Flows
 
 - Unauthorized/inactive, missing event or retrieval failure: safe deny/not-found/error without disclosure.
-- Invalid schedule/end-before-start/invalid local date: reject inconsistent provided schedule; do not silently convert to another date or depend solely on browser time.
+- Invalid schedule/end-at-or-before-start/invalid local date: reject inconsistent provided schedule; do not silently convert to another date or depend solely on browser time.
 - Incomplete required EN/UR on Publish, unsafe content/media or stale concurrent revision: reject publish; current public version stays.
 - Draft save/publication/audit/commit failure: rollback associated mutation. Event already Past at publication is not automatically deleted or archived; classify under supported semantics.
-- Undefined multi-day/date-only/timezone representation: flag pending scheduling details instead of inventing exact interpretation.
+- Date-only/multi-day variations beyond approved start/end need implementation detail or separate clarification; Asia/Karachi and end > start are final, no event-specific timezone override.
 
 ## Business Rules
 
 - **CE-001 - DECIDED:** Authorized Content Editor drafts/publishes without Super Admin approval; backend checks every CMS request/preview, no extra role or finance/HR/staff/branch-lifecycle authority.
 - **CE-002 - DECIDED:** Complete safe required en and ur content of same revision before publish; incomplete Draft allowed, optional fields not mandatory, English LTR/Urdu RTL. UI labels remain i18n.
 - **CE-003 - DECIDED:** Published event edits create new Draft; live revision stays until atomic validated publication/audit, with stale updates rejected and historical revisions retained.
-- **CE-004 - DECIDED:** Published event automatically moves from Upcoming display to Past after its relevant date passes, using trusted clock/defined timing. This is classification only, not state deletion/archive/unpublish/revision/audit rewrite; Draft/unpublished/archived events never appear in either public listing.
-- **RECOMMENDED timing semantics:** With valid end timestamp, Past once now reaches end; date-only Past after local event date ends. Use Asia/Karachi unless an authoritative event-specific timezone exists. Exact date-only/multi-day/event-specific representation remains PENDING; recommendation is not a finalized storage model.
+- **CE-004 - DECIDED:** Published event automatically moves from Upcoming display to Past at its end instant (authoritative server now >= end), using unambiguous Asia/Karachi schedule instants. This is classification only, not state deletion/archive/unpublish/revision/audit rewrite; Draft/unpublished/archived events never appear in either public listing.
+- **CMS-002/CMS-006 - DECIDED:** Authoritative server now >= unambiguous end instant means Past, no longer upcoming/current exactly at end; schedule interpreted/displayed in Asia/Karachi with localized dates. No browser-only clock/manual Past flag, automatic retirement or new publication state; hidden events remain hidden regardless of date.
 - **CE-005 - DECIDED:** Manual archive/unpublish preserves identity/history; time passing never triggers it. Safe rich text/media controls and bilingual meaningful-image alt text apply; no private file paths, real personal/CNIC sample data or payments.
+
+- **CMS-004/CMS-005/CMS-007 - DECIDED:** Same-revision required bilingual publication with optional image; server sanitization and actual-content/metadata safe image validation protect private preview/public responses. Immediate retirement hides public list/detail/cache without deleting history. [Content contract](../../../project-context/modules/content-management.md).
 
 ## Postconditions
 
@@ -70,7 +72,7 @@ flowchart TD
     J --> K{"Commit successful?"}
     K -->|No| R
     K -->|Yes| L["Public read evaluates trusted clock and published event timing"]
-    L --> M{"Relevant event date has passed?"}
+    L --> M{"Server now at or after published end instant?"}
     M -->|Yes| N["Show Past; preserve published event and history"]
     M -->|No| O["Show Upcoming under defined timing semantics"]
     N --> P["Archive/unpublish is separate authorized action, never automatic date classification"]
@@ -82,13 +84,15 @@ flowchart TD
 
 ## Acceptance Criteria
 
-- Active authorized editor saves incomplete Draft; required missing EN/UR or invalid end-before-start schedule blocks Publish; invalid local dates never silently shift.
+- Active authorized editor saves incomplete Draft; required missing EN/UR or invalid end-equal-to-or-before-start schedule blocks Publish; invalid local dates never silently shift.
 - Published edits remain Draft until valid atomic publish; stale concurrent edits/audit failure preserve live revision.
 - Future event appears Upcoming; completed event moves to Past automatically with trusted-time boundary tests under approved schedule semantics, without manual archive/delete/revision changes.
 - Published Past remains public; Draft/unpublished/archived events absent from Upcoming and Past APIs, and unauthorized preview denied.
 - Event text edits cannot change operational branch/HR/finance records. History/audit preserved; these are future tests, not executed checks.
 
+- Planned boundary coverage: missing location/start/end/required translation blocks Publish, optional image absence does not; end == start rejected. At server now == end, published event is Past with no archive; hidden events never surface. Future tests only.
+
 ## Pending Decisions
 
-- Exact event field requirements, date-only/multi-day/event-timezone representation and boundary implementation; timing recommendations above remain recommendations.
+- Date-only/multi-day variations beyond approved start/end remain implementation detail or separately pending; CMS-002 required fields/Asia/Karachi/end > start and CMS-006 exact server end boundary are DECIDED.
 - Media formats/storage/dimensions/limits, rich-text editor/sanitizer, cache invalidation, optional content fallback, archived restoration and editorial notifications.
