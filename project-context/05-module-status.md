@@ -1,24 +1,7 @@
-# Module status
+# Module status overview
 
-| Module       | Frontend                  | Backend               | Business tests/deployment       |
-| ------------ | ------------------------- | --------------------- | ------------------------------- |
-| auth         | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
-| users        | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
-| branches     | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
-| applications | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
-| members      | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
-| collections  | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
-| reports      | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
-| dashboard    | Public shell preview only | Placeholder directory | Not implemented/tested/deployed |
-| content      | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
-| audit        | Placeholder directory     | Placeholder directory | Not implemented/tested/deployed |
+The SINGLE authoritative detailed module/progress table is [12-development-handoff.md](12-development-handoff.md). [11-team-ownership.md](11-team-ownership.md) is the A/B module/shared-file authority; [AGENTS.md](../AGENTS.md) is onboarding. Do not maintain a second per-module status table here.
 
-Infrastructure has real code and tests; see 09-testing-status. Public page shells do not imply completed content management or branch functionality.
+Baseline inspected 2026-10-28: foundation frontend/backend/tooling/contracts/tests/CI configuration exist; seven public shells and foundation en/ur switching are partial UI only. All ten backend business modules remain .gitkeep placeholders, Prisma defines FoundationMarker only, and no functional staff auth/RBAC or business acceptance exists. See the ledger for source paths, exact states, last verified work, actual test evidence, blockers and next tasks; do not infer IMPLEMENTED/TESTED/INTEGRATED from documentation or file existence.
 
-## Documentation versus implementation baseline (2026-10-28)
-
-All 27 role/public workflows documented; approved policy families: SA-001 to SA-008; HR-001 to HR-010; HWF-XM-001 to HWF-XM-004; BL-001 to BL-005; FIN-001 to FIN-018; AUTH-001 to AUTH-006; WR-001 to WR-006; APP-001 to APP-008; CE-001 to CE-005; CMS-001 to CMS-007; PERM-001 to PERM-005; EXP-001 to EXP-004. [Decision log](06-decisions-log.md) and [permissions](../docs/permissions.md) govern the baseline; architecture/API/database now define shared integration contracts. This changes documentation status only; every business implementation/test/deployment cell above remains accurate.
-
-One shared audit implementation, single-owner-at-a-time business schema/migrations and reviewed domain transport/transaction ports are prerequisites for protected integration. Auth/users remain separate from members; collections owns financial sources/accounting and reports owns canonical reports/revisions/snapshots; dashboard/export reads canonical projections. See [architecture](../docs/architecture.md) and [handoff plan](04-development-roadmap.md).
-
-Foundation source exists, schema defines only FoundationMarker and business modules/permission acceptance tests remain unimplemented. Official fixture gate, live Render and latest green main CI are NOT VERIFIED. [Member specification gaps](modules/members.md) and other [classified pending paths](../docs/requirements/clarifications.md) remain; choosing a nonessential library does not block unrelated core implementation. Documentation freeze is a change-reviewed baseline, not implemented/tested/deployed completion.
+All 27 role/public workflows and approved SA/HR/HWF-XM/BL/FIN/AUTH/WR/APP/CE/CMS/PERM/EXP requirements remain the [documentation baseline](03-current-state.md). [Architecture](../docs/architecture.md) defines modules/transaction ports; ownership labels change no business roles/grants. Official fixtures/KPI/four-gate evidence, latest green main CI and live Render remain unverified. Historical tests live in [09-testing-status.md](09-testing-status.md); current detailed evidence and synchronized handoffs belong in the ledger. Update this overview only when the high-level baseline changes.
