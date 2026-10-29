@@ -4,6 +4,8 @@
 
 Start at [AGENTS.md](../AGENTS.md), then read [11-team-ownership.md](11-team-ownership.md) for A/B allocation and single-editor shared files, and [12-development-handoff.md](12-development-handoff.md) for the SINGLE detailed development progress/next-action/handoff ledger. Identify the active profile explicitly before business implementation; no personal mapping is recorded. This file is a high-level baseline, not a duplicate per-module ledger. Verify status against actual code/Git/evidence in every new session.
 
+2026-10-29 shared layout addition: five authenticated role shells/dashboards and seven public templates now use the supplied Figma, fixed/full-height responsive sidebar and EN/UR navigation. Business values/modules remain explicitly unavailable pending their APIs. See [layout report](../docs/shared-layouts.md) and the single handoff ledger for verification and the user's one-time shared frontend ownership exception. This supersedes historical references below to the old public dashboard preview; it does not promote business modules to implemented.
+
 ## Implementation baseline inspected 2026-10-28
 
 **Current addition, 2026-10-29:** A-02 authentication is implemented and locally tested: real PostgreSQL login/me/logout/password rotation/admin reset/bootstrap, current five-role/branch authorization ports, EN/UR staff screens from the supplied `.fig`, and real browser flow. See [the single ledger](12-development-handoff.md) and [implementation/limitations](../docs/authentication.md). Users/Branches mutation services and B consumer integration remain pending; no deployment/commit is claimed. The following 2026-10-28 baseline is historical.

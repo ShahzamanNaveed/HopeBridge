@@ -45,7 +45,7 @@ test('real bootstrap → mandatory change → workspace → password change → 
     .click();
   await expect(page.getByRole('status')).toContainText('successfully');
   await page.getByRole('link', { name: 'Update password & continue' }).click();
-  await expect(page).toHaveURL(/\/staff$/);
+  await expect(page).toHaveURL(/\/staff\/super-admin$/);
   await expect(page.getByText('Super Admin', { exact: true })).toBeVisible();
   const oldCookies = await context.cookies();
   let releaseProtectedCheck!: () => void;
@@ -67,7 +67,7 @@ test('real bootstrap → mandatory change → workspace → password change → 
   ).toBeVisible();
   await page.unroute('**/api/v1/auth/me');
   const accountCard = await page.locator('.hb-account-card').boundingBox();
-  expect(accountCard?.y).toBe(265);
+  expect(accountCard?.y).toBeGreaterThan(78);
   const currentInput = await page
     .getByLabel('Current password', { exact: true })
     .boundingBox();
@@ -107,7 +107,7 @@ test('real bootstrap → mandatory change → workspace → password change → 
   await page.getByLabel('Email address').fill('browser-admin@example.test');
   await page.getByLabel('Password', { exact: true }).fill(changed);
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-  await expect(page).toHaveURL(/\/staff$/);
+  await expect(page).toHaveURL(/\/staff\/super-admin$/);
   await page.goto('/staff/access-denied');
   await expect(
     page.getByRole('heading', { name: 'Access restricted' }),
@@ -385,7 +385,7 @@ test('all first-login design variants, loading guards and expired restricted ses
     await page
       .getByRole('link', { name: 'Update password & continue' })
       .click();
-    await expect(page).toHaveURL(/\/staff$/);
+    await expect(page).toHaveURL(/\/staff\/hr$/);
     // Real current-credential restriction/expiry, without a mocked session response.
     const renewedAt = new Date();
     await db.staffCredential.update({

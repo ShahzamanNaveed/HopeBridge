@@ -1,5 +1,7 @@
 # Change log
 
+2026-10-29: Developer A implemented the requested shared staff/public Figma layouts under the explicit shared frontend exception: five role menus/dashboard presentations, protected navigation, fixed full-height collapsible/RTL/mobile sidebar, seven public templates and separate navbar/footer. Business APIs remain unavailable. Local evidence PNGs are gitignored; no commit/push/upload. Details and actual verification are in the single development handoff ledger and docs/shared-layouts.md.
+
 2026-10-24: initialized the previously empty HopeBridge workspace with the Milestone 0 foundation, requested naming, application shells, middleware/database infrastructure, verification suites, CI/container configuration and living documentation. No business modules or deployment were completed. No commits or pushes were created.
 
 2026-10-26: documentation-only update records confirmed HWF organisation, responsibilities, identifiers, application/member safeguards, public/staff design and clarified official scope. Pending decisions and traceability were synchronized. No source, schema, configuration or test changes; no installs, migrations, deployment or new runtime verification.

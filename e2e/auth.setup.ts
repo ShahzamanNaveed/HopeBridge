@@ -67,7 +67,10 @@ export default async function setup() {
     }
     backend = spawn(
       process.execPath,
-      [resolve(root, 'node_modules/tsx/dist/cli.mjs'), 'src/server.ts'],
+      [
+        resolve(root, 'node_modules/tsx/dist/cli.mjs'),
+        resolve(root, 'e2e/runtime-server.ts'),
+      ],
       {
         cwd: resolve(root, 'apps/backend'),
         env,

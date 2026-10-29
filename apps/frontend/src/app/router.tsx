@@ -1,6 +1,16 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, Navigate } from 'react-router';
+import type { StaffRole } from '@shiplens/contracts';
 import { PublicLayout } from '../layouts/public-layout';
-import { DashboardLayout } from '../layouts/dashboard-layout';
+import {
+  StaffLayout,
+  StaffWorkspaceRedirect,
+} from '../layouts/staff/staff-layout';
+import {
+  StaffDashboard,
+  StaffModulePage,
+  StaffAccountPage,
+} from '../layouts/staff/staff-dashboard';
+import { roleRoots } from '../layouts/staff/role-navigation';
 import { PublicPage } from '../pages/public/public-page';
 import { ErrorPage } from '../components/feedback/error-page';
 import {
@@ -10,7 +20,6 @@ import {
   ProtectedRoute,
   AuthStatusPage,
   LogoutPage,
-  StaffWorkspace,
 } from '../features/auth';
 export const publicPages = [
   'home',
@@ -43,14 +52,34 @@ export const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      { path: '/staff', element: <StaffWorkspace /> },
-      { path: '/staff/security', element: <ChangePasswordPage /> },
+      {
+        element: <StaffLayout />,
+        children: [
+          { path: '/staff', element: <StaffWorkspaceRedirect /> },
+          { path: '/staff/security', element: <ChangePasswordPage embedded /> },
+          { path: '/staff/account', element: <StaffAccountPage /> },
+        ],
+      },
       {
         path: '/staff/access-denied',
         element: <AuthStatusPage kind="denied" />,
       },
     ],
   },
+  ...Object.entries(roleRoots).map(([role, path]) => ({
+    element: <ProtectedRoute roles={[role as StaffRole]} />,
+    children: [
+      {
+        path,
+        element: <StaffLayout />,
+        children: [
+          { index: true, element: <StaffDashboard /> },
+          { path: ':module', element: <StaffModulePage /> },
+        ],
+      },
+    ],
+  })),
+  { path: '/dashboard', element: <Navigate replace to="/staff" /> },
   {
     element: <PublicLayout />,
     errorElement: <ErrorPage />,
@@ -59,7 +88,6 @@ export const router = createBrowserRouter([
         path: page === 'home' ? '/' : `/${page}`,
         element: <PublicPage page={page} />,
       })),
-      { path: '/dashboard', element: <DashboardLayout /> },
       { path: '*', element: <ErrorPage notFound /> },
     ],
   },
