@@ -1,14 +1,793 @@
+// DB-01: business storage contracts; application authorization/calculations remain in services.
+// PostgreSQL-only CHECKs, partial indexes and immutability triggers are in the companion migration.
 generator client {
-  provider = "prisma-client"
-  output = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
   moduleFormat = "esm"
 }
+
 datasource db {
   provider = "postgresql"
 }
-// Infrastructure marker only; no business domain schema is finalized.
+
+enum StaffRole {
+  SUPER_ADMIN
+  FINANCE_REVIEWER
+  CONTENT_EDITOR
+  BRANCH_LEAD
+  HR_LEAD
+}
+
+enum StaffStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum BranchStatus {
+  FORMING
+  ACTIVE
+  PAUSED
+  CLOSED
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+enum ApplicationDecisionType {
+  ACCEPT
+  DECLINE
+  REVERSE_ACCEPTANCE
+  REVERSE_DECLINE
+  REACCEPT
+}
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum TransferStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AdjustmentStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum RecognitionKind {
+  ORIGINAL
+  LATE_ENTRY
+  ADJUSTMENT
+}
+
+enum RemittanceStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum ReservationState {
+  RESERVED
+  CONFIRMED
+  RELEASED
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ReportStatus {
+  DRAFT
+  SUBMITTED
+  RETURNED
+  APPROVED
+}
+
+enum ReportAction {
+  GENERATE
+  SUBMIT
+  RETURN
+  RESUBMIT
+  APPROVE
+}
+
+enum ContentKind {
+  PROGRAM
+  EVENT
+  PAGE
+}
+
+enum ContentRevisionStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum PublicPage {
+  HOME
+  ABOUT
+  PROGRAMS
+  BRANCHES
+  EVENTS
+  GET_INVOLVED
+  CONTACT
+}
+
+enum AuditActorKind {
+  STAFF
+  SYSTEM
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum CredentialEventType {
+  PROVISION
+  RESET
+  CHANGE
+  EXPIRE
+}
+
+enum CitySequenceKind {
+  BRANCH
+  VOLUNTEER
+}
+
 model FoundationMarker {
-  id Int @id
+  id        Int      @id
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
   @@map("foundation_markers")
+}
+
+model City {
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  name              String
+  code              String        @unique
+  cityCounter_city  CityCounter[] @relation("CityCounter_city")
+  branch_city       Branch[]      @relation("Branch_city")
+  member_originCity Member[]      @relation("Member_originCity")
+
+  @@map("cities")
+}
+
+model CityCounter {
+  cityId String           @map("city_id") @db.Uuid
+  kind   CitySequenceKind
+  value  BigInt           @default(0)
+  city   City             @relation("CityCounter_city", fields: [cityId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@id([cityId, kind])
+  @@map("city_counters")
+}
+
+model StaffUser {
+  id                                 String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                          DateTime                 @default(now()) @map("created_at") @db.Timestamptz(3)
+  emailNormalized                    String                   @unique @map("email_normalized")
+  displayName                        String                   @map("display_name")
+  role                               StaffRole
+  status                             StaffStatus              @default(ACTIVE)
+  version                            Int                      @default(0)
+  deactivatedAt                      DateTime?                @map("deactivated_at") @db.Timestamptz(3)
+  staffCredential_staff              StaffCredential[]        @relation("StaffCredential_staff")
+  staffSession_staff                 StaffSession[]           @relation("StaffSession_staff")
+  credentialEvent_staff              CredentialEvent[]        @relation("CredentialEvent_staff")
+  credentialEvent_actor              CredentialEvent[]        @relation("CredentialEvent_actor")
+  branchLeadAssignment_lead          BranchLeadAssignment[]   @relation("BranchLeadAssignment_lead")
+  branchLeadAssignment_assignedBy    BranchLeadAssignment[]   @relation("BranchLeadAssignment_assignedBy")
+  applicationDecision_actor          ApplicationDecision[]    @relation("ApplicationDecision_actor")
+  memberHistory_actor                MemberHistory[]          @relation("MemberHistory_actor")
+  memberAssignment_assignedBy        MemberAssignment[]       @relation("MemberAssignment_assignedBy")
+  memberTransfer_requestedBy         MemberTransfer[]         @relation("MemberTransfer_requestedBy")
+  memberTransfer_decidedBy           MemberTransfer[]         @relation("MemberTransfer_decidedBy")
+  mediaAsset_uploadedBy              MediaAsset[]             @relation("MediaAsset_uploadedBy")
+  collection_recordedBy              Collection[]             @relation("Collection_recordedBy")
+  financialAdjustment_requestedBy    FinancialAdjustment[]    @relation("FinancialAdjustment_requestedBy")
+  financialAdjustment_decidedBy      FinancialAdjustment[]    @relation("FinancialAdjustment_decidedBy")
+  remittance_recordedBy              Remittance[]             @relation("Remittance_recordedBy")
+  remittance_confirmedBy             Remittance[]             @relation("Remittance_confirmedBy")
+  remittanceCancellation_requestedBy RemittanceCancellation[] @relation("RemittanceCancellation_requestedBy")
+  remittanceCancellation_decidedBy   RemittanceCancellation[] @relation("RemittanceCancellation_decidedBy")
+  reportRevision_submittedBy         ReportRevision[]         @relation("ReportRevision_submittedBy")
+  reportApproval_approvedBy          ReportApproval[]         @relation("ReportApproval_approvedBy")
+  reportTransition_actor             ReportTransition[]       @relation("ReportTransition_actor")
+  cmsRevision_editedBy               CmsRevision[]            @relation("CmsRevision_editedBy")
+  cmsRevision_publishedBy            CmsRevision[]            @relation("CmsRevision_publishedBy")
+  auditEvent_actor                   AuditEvent[]             @relation("AuditEvent_actor")
+
+  @@map("staff_users")
+}
+
+model StaffCredential {
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  passwordHash       String    @map("password_hash")
+  temporaryIssuedAt  DateTime? @map("temporary_issued_at") @db.Timestamptz(3)
+  temporaryExpiresAt DateTime? @map("temporary_expires_at") @db.Timestamptz(3)
+  mustChangePassword Boolean   @default(true) @map("must_change_password")
+  changedAt          DateTime? @map("changed_at") @db.Timestamptz(3)
+  staffId            String    @unique @map("staff_id") @db.Uuid
+  staff              StaffUser @relation("StaffCredential_staff", fields: [staffId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@map("staff_credentials")
+}
+
+model StaffSession {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  tokenHash         String    @unique @map("token_hash")
+  csrfTokenHash     String    @map("csrf_token_hash")
+  issuedAt          DateTime  @default(now()) @map("issued_at") @db.Timestamptz(3)
+  absoluteExpiresAt DateTime  @map("absolute_expires_at") @db.Timestamptz(3)
+  idleExpiresAt     DateTime  @map("idle_expires_at") @db.Timestamptz(3)
+  revokedAt         DateTime? @map("revoked_at") @db.Timestamptz(3)
+  restricted        Boolean   @default(false)
+  lastActivityAt    DateTime  @default(now()) @map("last_activity_at") @db.Timestamptz(3)
+  staffId           String    @map("staff_id") @db.Uuid
+  staff             StaffUser @relation("StaffSession_staff", fields: [staffId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([staffId, revokedAt])
+  @@index([absoluteExpiresAt])
+  @@map("staff_sessions")
+}
+
+model CredentialEvent {
+  id        String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime            @default(now()) @map("created_at") @db.Timestamptz(3)
+  kind      CredentialEventType
+  metadata  Json?               @db.JsonB
+  staffId   String              @map("staff_id") @db.Uuid
+  staff     StaffUser           @relation("CredentialEvent_staff", fields: [staffId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  actorId   String?             @map("actor_id") @db.Uuid
+  actor     StaffUser?          @relation("CredentialEvent_actor", fields: [actorId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@map("credential_events")
+}
+
+model Branch {
+  id                                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                            DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  code                                 String                 @unique
+  name                                 String
+  address                              String?
+  status                               BranchStatus           @default(FORMING)
+  version                              Int                    @default(0)
+  cityId                               String                 @map("city_id") @db.Uuid
+  city                                 City                   @relation("Branch_city", fields: [cityId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  branchLeadAssignment_branch          BranchLeadAssignment[] @relation("BranchLeadAssignment_branch")
+  volunteerApplication_preferredBranch VolunteerApplication[] @relation("VolunteerApplication_preferredBranch")
+  member_branch                        Member[]               @relation("Member_branch")
+  team_branch                          Team[]                 @relation("Team_branch")
+  memberTransfer_sourceBranch          MemberTransfer[]       @relation("MemberTransfer_sourceBranch")
+  memberTransfer_targetBranch          MemberTransfer[]       @relation("MemberTransfer_targetBranch")
+  collection_branch                    Collection[]           @relation("Collection_branch")
+  financialAdjustment_branch           FinancialAdjustment[]  @relation("FinancialAdjustment_branch")
+  weeklyReport_branch                  WeeklyReport[]         @relation("WeeklyReport_branch")
+  financialRecognition_branch          FinancialRecognition[] @relation("FinancialRecognition_branch")
+  remittance_branch                    Remittance[]           @relation("Remittance_branch")
+  auditEvent_branch                    AuditEvent[]           @relation("AuditEvent_branch")
+  previousMemberHistories              MemberHistory[]        @relation("MemberHistory_previousBranch")
+  newMemberHistories                   MemberHistory[]        @relation("MemberHistory_newBranch")
+
+  @@index([cityId, status])
+  @@map("branches")
+}
+
+model BranchLeadAssignment {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  startedAt    DateTime  @default(now()) @map("started_at") @db.Timestamptz(3)
+  endedAt      DateTime? @map("ended_at") @db.Timestamptz(3)
+  branchId     String    @map("branch_id") @db.Uuid
+  branch       Branch    @relation("BranchLeadAssignment_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  leadId       String    @map("lead_id") @db.Uuid
+  lead         StaffUser @relation("BranchLeadAssignment_lead", fields: [leadId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  assignedById String    @map("assigned_by_id") @db.Uuid
+  assignedBy   StaffUser @relation("BranchLeadAssignment_assignedBy", fields: [assignedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([branchId, startedAt])
+  @@index([leadId, endedAt])
+  @@map("branch_lead_assignments")
+}
+
+model VolunteerApplication {
+  id                              String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                       DateTime              @default(now()) @map("created_at") @db.Timestamptz(3)
+  reference                       String                @unique
+  fullName                        String                @map("full_name")
+  emailNormalized                 String                @map("email_normalized")
+  phoneNormalized                 String                @map("phone_normalized")
+  residentialCity                 String                @map("residential_city")
+  areaOfInterest                  String                @map("area_of_interest")
+  motivation                      String
+  availability                    String?
+  consentVersion                  String                @map("consent_version")
+  consentAcceptedAt               DateTime              @default(now()) @map("consent_accepted_at") @db.Timestamptz(3)
+  status                          ApplicationStatus     @default(PENDING)
+  declineReason                   String?               @map("decline_reason")
+  version                         Int                   @default(0)
+  preferredBranchId               String                @map("preferred_branch_id") @db.Uuid
+  preferredBranch                 Branch                @relation("VolunteerApplication_preferredBranch", fields: [preferredBranchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  applicationDecision_application ApplicationDecision[] @relation("ApplicationDecision_application")
+  member_application              Member[]              @relation("Member_application")
+
+  @@index([preferredBranchId, status, createdAt])
+  @@index([emailNormalized])
+  @@index([phoneNormalized])
+  @@map("volunteer_applications")
+}
+
+model ApplicationDecision {
+  id                            String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                     DateTime                @default(now()) @map("created_at") @db.Timestamptz(3)
+  kind                          ApplicationDecisionType
+  fromStatus                    ApplicationStatus       @map("from_status")
+  toStatus                      ApplicationStatus       @map("to_status")
+  reason                        String?
+  applicationVersion            Int                     @map("application_version")
+  applicationId                 String                  @map("application_id") @db.Uuid
+  application                   VolunteerApplication    @relation("ApplicationDecision_application", fields: [applicationId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  actorId                       String                  @map("actor_id") @db.Uuid
+  actor                         StaffUser               @relation("ApplicationDecision_actor", fields: [actorId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  decisionNotification_decision DecisionNotification[]  @relation("DecisionNotification_decision")
+
+  @@unique([applicationId, applicationVersion])
+  @@index([applicationId, createdAt])
+  @@map("application_decisions")
+}
+
+model DecisionNotification {
+  id             String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt      DateTime            @default(now()) @map("created_at") @db.Timestamptz(3)
+  status         NotificationStatus  @default(PENDING)
+  recipientEmail String              @map("recipient_email")
+  attempts       Int                 @default(0)
+  lastAttemptAt  DateTime?           @map("last_attempt_at") @db.Timestamptz(3)
+  sentAt         DateTime?           @map("sent_at") @db.Timestamptz(3)
+  lastErrorCode  String?             @map("last_error_code")
+  decisionId     String              @unique @map("decision_id") @db.Uuid
+  decision       ApplicationDecision @relation("DecisionNotification_decision", fields: [decisionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@map("decision_notifications")
+}
+
+model Member {
+  id                      String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  volunteerId             String               @unique @map("volunteer_id")
+  fullName                String               @map("full_name")
+  emailNormalized         String               @map("email_normalized")
+  phoneNormalized         String               @map("phone_normalized")
+  status                  MemberStatus         @default(ACTIVE)
+  version                 Int                  @default(0)
+  applicationId           String               @unique @map("application_id") @db.Uuid
+  application             VolunteerApplication @relation("Member_application", fields: [applicationId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  branchId                String               @map("branch_id") @db.Uuid
+  branch                  Branch               @relation("Member_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  originCityId            String               @map("origin_city_id") @db.Uuid
+  originCity              City                 @relation("Member_originCity", fields: [originCityId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  memberHistory_member    MemberHistory[]      @relation("MemberHistory_member")
+  memberAssignment_member MemberAssignment[]   @relation("MemberAssignment_member")
+  memberTransfer_member   MemberTransfer[]     @relation("MemberTransfer_member")
+  collection_member       Collection[]         @relation("Collection_member")
+
+  @@unique([id, branchId])
+  @@index([branchId, status, fullName])
+  @@index([emailNormalized])
+  @@index([phoneNormalized])
+  @@map("members")
+}
+
+model MemberHistory {
+  id               String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt        DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  action           String
+  previousBranchId String?       @map("previous_branch_id") @db.Uuid
+  previousStatus   MemberStatus? @map("previous_status")
+  newStatus        MemberStatus? @map("new_status")
+  reason           String?
+  memberId         String        @map("member_id") @db.Uuid
+  member           Member        @relation("MemberHistory_member", fields: [memberId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  actorId          String        @map("actor_id") @db.Uuid
+  actor            StaffUser     @relation("MemberHistory_actor", fields: [actorId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  newBranchId      String?       @map("new_branch_id") @db.Uuid
+  previousBranch   Branch?       @relation("MemberHistory_previousBranch", fields: [previousBranchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  newBranch        Branch?       @relation("MemberHistory_newBranch", fields: [newBranchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([memberId, createdAt])
+  @@map("member_histories")
+}
+
+model Team {
+  id                    String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt             DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  name                  String
+  archivedAt            DateTime?          @map("archived_at") @db.Timestamptz(3)
+  branchId              String             @map("branch_id") @db.Uuid
+  branch                Branch             @relation("Team_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  memberAssignment_team MemberAssignment[] @relation("MemberAssignment_team")
+
+  @@unique([id, branchId])
+  @@index([branchId])
+  @@map("teams")
+}
+
+model MemberAssignment {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  operationalRole String?   @map("operational_role")
+  startedAt       DateTime  @default(now()) @map("started_at") @db.Timestamptz(3)
+  endedAt         DateTime? @map("ended_at") @db.Timestamptz(3)
+  endReason       String?   @map("end_reason")
+  memberId        String    @map("member_id") @db.Uuid
+  member          Member    @relation("MemberAssignment_member", fields: [memberId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  teamId          String    @map("team_id") @db.Uuid
+  team            Team      @relation("MemberAssignment_team", fields: [teamId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  assignedById    String    @map("assigned_by_id") @db.Uuid
+  assignedBy      StaffUser @relation("MemberAssignment_assignedBy", fields: [assignedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([memberId, endedAt])
+  @@index([teamId, endedAt])
+  @@map("member_assignments")
+}
+
+model MemberTransfer {
+  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  status         TransferStatus @default(PENDING)
+  reason         String?
+  decisionReason String?        @map("decision_reason")
+  decidedAt      DateTime?      @map("decided_at") @db.Timestamptz(3)
+  version        Int            @default(0)
+  memberId       String         @map("member_id") @db.Uuid
+  member         Member         @relation("MemberTransfer_member", fields: [memberId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  sourceBranchId String         @map("source_branch_id") @db.Uuid
+  sourceBranch   Branch         @relation("MemberTransfer_sourceBranch", fields: [sourceBranchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  targetBranchId String         @map("target_branch_id") @db.Uuid
+  targetBranch   Branch         @relation("MemberTransfer_targetBranch", fields: [targetBranchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  requestedById  String         @map("requested_by_id") @db.Uuid
+  requestedBy    StaffUser      @relation("MemberTransfer_requestedBy", fields: [requestedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  decidedById    String?        @map("decided_by_id") @db.Uuid
+  decidedBy      StaffUser?     @relation("MemberTransfer_decidedBy", fields: [decidedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([sourceBranchId, status])
+  @@index([targetBranchId, status])
+  @@index([memberId, createdAt])
+  @@map("member_transfers")
+}
+
+model MediaAsset {
+  id                           String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                    DateTime              @default(now()) @map("created_at") @db.Timestamptz(3)
+  storageKey                   String                @unique @map("storage_key")
+  mediaType                    String                @map("media_type")
+  sizeBytes                    BigInt                @map("size_bytes")
+  contentHash                  String                @map("content_hash")
+  validatedAt                  DateTime?             @map("validated_at") @db.Timestamptz(3)
+  altEn                        String?               @map("alt_en")
+  altUr                        String?               @map("alt_ur")
+  uploadedById                 String                @map("uploaded_by_id") @db.Uuid
+  uploadedBy                   StaffUser             @relation("MediaAsset_uploadedBy", fields: [uploadedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  financialAdjustment_evidence FinancialAdjustment[] @relation("FinancialAdjustment_evidence")
+  remittance_evidence          Remittance[]          @relation("Remittance_evidence")
+  cmsRevision_image            CmsRevision[]         @relation("CmsRevision_image")
+
+  @@map("media_assets")
+}
+
+model Collection {
+  id                              String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                       DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  reference                       String                 @unique
+  amount                          Decimal                @db.Decimal(18, 2)
+  occurredAt                      DateTime               @map("occurred_at") @db.Timestamptz(3)
+  originalWeekStart               DateTime               @default(now()) @map("original_week_start") @db.Timestamptz(3)
+  version                         Int                    @default(0)
+  branchId                        String                 @map("branch_id") @db.Uuid
+  branch                          Branch                 @relation("Collection_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  memberId                        String?                @map("member_id") @db.Uuid
+  member                          Member?                @relation("Collection_member", fields: [memberId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  recordedById                    String                 @map("recorded_by_id") @db.Uuid
+  recordedBy                      StaffUser              @relation("Collection_recordedBy", fields: [recordedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  financialAdjustment_collection  FinancialAdjustment[]  @relation("FinancialAdjustment_collection")
+  financialRecognition_collection FinancialRecognition[] @relation("FinancialRecognition_collection")
+
+  @@unique([id, branchId])
+  @@index([branchId, occurredAt])
+  @@index([branchId, originalWeekStart])
+  @@map("collections")
+}
+
+model FinancialAdjustment {
+  id                              String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                       DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  reference                       String                 @unique
+  amount                          Decimal                @db.Decimal(18, 2)
+  reason                          String
+  status                          AdjustmentStatus       @default(PENDING_REVIEW)
+  decisionReason                  String?                @map("decision_reason")
+  decidedAt                       DateTime?              @map("decided_at") @db.Timestamptz(3)
+  version                         Int                    @default(0)
+  branchId                        String                 @map("branch_id") @db.Uuid
+  branch                          Branch                 @relation("FinancialAdjustment_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  collectionId                    String                 @map("collection_id") @db.Uuid
+  collection                      Collection             @relation("FinancialAdjustment_collection", fields: [collectionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  requestedById                   String                 @map("requested_by_id") @db.Uuid
+  requestedBy                     StaffUser              @relation("FinancialAdjustment_requestedBy", fields: [requestedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  decidedById                     String?                @map("decided_by_id") @db.Uuid
+  decidedBy                       StaffUser?             @relation("FinancialAdjustment_decidedBy", fields: [decidedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  evidenceId                      String?                @map("evidence_id") @db.Uuid
+  evidence                        MediaAsset?            @relation("FinancialAdjustment_evidence", fields: [evidenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  financialRecognition_adjustment FinancialRecognition[] @relation("FinancialRecognition_adjustment")
+
+  @@unique([id, branchId])
+  @@index([branchId, status, createdAt])
+  @@map("financial_adjustments")
+}
+
+model WeeklyReport {
+  id                          String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                   DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  weekStart                   DateTime               @map("week_start") @db.Timestamptz(3)
+  weekEnd                     DateTime               @map("week_end") @db.Timestamptz(3)
+  status                      ReportStatus           @default(DRAFT)
+  version                     Int                    @default(0)
+  approvedAt                  DateTime?              @map("approved_at") @db.Timestamptz(3)
+  lockedAt                    DateTime?              @map("locked_at") @db.Timestamptz(3)
+  branchId                    String                 @map("branch_id") @db.Uuid
+  branch                      Branch                 @relation("WeeklyReport_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  financialRecognition_report FinancialRecognition[] @relation("FinancialRecognition_report")
+  reportRevision_report       ReportRevision[]       @relation("ReportRevision_report")
+  reportApproval_report       ReportApproval[]       @relation("ReportApproval_report")
+  reportTransition_report     ReportTransition[]     @relation("ReportTransition_report")
+
+  @@unique([branchId, weekStart])
+  @@unique([id, branchId])
+  @@index([status, weekStart])
+  @@map("weekly_reports")
+}
+
+model FinancialRecognition {
+  id                     String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt              DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  kind                   RecognitionKind
+  recognizedAt           DateTime             @default(now()) @map("recognized_at") @db.Timestamptz(3)
+  branchId               String               @map("branch_id") @db.Uuid
+  branch                 Branch               @relation("FinancialRecognition_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  collectionId           String?              @map("collection_id") @db.Uuid
+  collection             Collection?          @relation("FinancialRecognition_collection", fields: [collectionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  adjustmentId           String?              @map("adjustment_id") @db.Uuid
+  adjustment             FinancialAdjustment? @relation("FinancialRecognition_adjustment", fields: [adjustmentId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  reportId               String               @map("report_id") @db.Uuid
+  report                 WeeklyReport         @relation("FinancialRecognition_report", fields: [reportId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  reportLine_recognition ReportLine[]         @relation("ReportLine_recognition")
+
+  @@index([branchId, createdAt])
+  @@map("financial_recognitions")
+}
+
+model Remittance {
+  id                                String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt                         DateTime                 @default(now()) @map("created_at") @db.Timestamptz(3)
+  reference                         String
+  amount                            Decimal                  @db.Decimal(18, 2)
+  transferDate                      DateTime                 @map("transfer_date") @db.Date
+  status                            RemittanceStatus         @default(PENDING)
+  confirmedAt                       DateTime?                @map("confirmed_at") @db.Timestamptz(3)
+  cancelledAt                       DateTime?                @map("cancelled_at") @db.Timestamptz(3)
+  version                           Int                      @default(0)
+  branchId                          String                   @map("branch_id") @db.Uuid
+  branch                            Branch                   @relation("Remittance_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  recordedById                      String                   @map("recorded_by_id") @db.Uuid
+  recordedBy                        StaffUser                @relation("Remittance_recordedBy", fields: [recordedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  confirmedById                     String?                  @map("confirmed_by_id") @db.Uuid
+  confirmedBy                       StaffUser?               @relation("Remittance_confirmedBy", fields: [confirmedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  evidenceId                        String?                  @map("evidence_id") @db.Uuid
+  evidence                          MediaAsset?              @relation("Remittance_evidence", fields: [evidenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  remittanceReservation_remittance  RemittanceReservation[]  @relation("RemittanceReservation_remittance")
+  remittanceCancellation_remittance RemittanceCancellation[] @relation("RemittanceCancellation_remittance")
+
+  @@unique([id, branchId])
+  @@index([branchId, status, transferDate])
+  @@map("remittances")
+}
+
+model RemittanceReservation {
+  id           String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt    DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  amount       Decimal          @db.Decimal(18, 2)
+  state        ReservationState @default(RESERVED)
+  settledAt    DateTime?        @map("settled_at") @db.Timestamptz(3)
+  remittanceId String           @unique @map("remittance_id") @db.Uuid
+  remittance   Remittance       @relation("RemittanceReservation_remittance", fields: [remittanceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@map("remittance_reservations")
+}
+
+model RemittanceCancellation {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  status         ReviewStatus @default(PENDING)
+  reason         String?
+  decisionReason String?      @map("decision_reason")
+  decidedAt      DateTime?    @map("decided_at") @db.Timestamptz(3)
+  remittanceId   String       @map("remittance_id") @db.Uuid
+  remittance     Remittance   @relation("RemittanceCancellation_remittance", fields: [remittanceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  requestedById  String       @map("requested_by_id") @db.Uuid
+  requestedBy    StaffUser    @relation("RemittanceCancellation_requestedBy", fields: [requestedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  decidedById    String?      @map("decided_by_id") @db.Uuid
+  decidedBy      StaffUser?   @relation("RemittanceCancellation_decidedBy", fields: [decidedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([remittanceId, status])
+  @@map("remittance_cancellations")
+}
+
+model ReportRevision {
+  id                      String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  number                  Int
+  submittedAt             DateTime         @default(now()) @map("submitted_at") @db.Timestamptz(3)
+  // Frozen source evidence and exact typed totals, not independently editable dashboard totals.
+  grossCollections        Decimal          @map("gross_collections") @db.Decimal(18, 2)
+  recognizedAdjustments   Decimal          @map("recognized_adjustments") @db.Decimal(18, 2)
+  netRecognized           Decimal          @map("net_recognized") @db.Decimal(18, 2)
+  confirmedRemittances    Decimal          @map("confirmed_remittances") @db.Decimal(18, 2)
+  pendingReservations     Decimal          @map("pending_reservations") @db.Decimal(18, 2)
+  signedOutstanding       Decimal          @map("signed_outstanding") @db.Decimal(18, 2)
+  reconciliationDeficit   Decimal          @map("reconciliation_deficit") @db.Decimal(18, 2)
+  availableToRemit        Decimal          @map("available_to_remit") @db.Decimal(18, 2)
+  reportId                String           @map("report_id") @db.Uuid
+  report                  WeeklyReport     @relation("ReportRevision_report", fields: [reportId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  submittedById           String           @map("submitted_by_id") @db.Uuid
+  submittedBy             StaffUser        @relation("ReportRevision_submittedBy", fields: [submittedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  reportLine_revision     ReportLine[]     @relation("ReportLine_revision")
+  reportApproval_revision ReportApproval[] @relation("ReportApproval_revision")
+
+  @@unique([reportId, number])
+  @@unique([id, reportId])
+  @@map("report_revisions")
+}
+
+model ReportLine {
+  id                String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt         DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  kind              RecognitionKind
+  amount            Decimal              @db.Decimal(18, 2)
+  sourceOccurredAt  DateTime             @map("source_occurred_at") @db.Timestamptz(3)
+  originalWeekStart DateTime             @map("original_week_start") @db.Timestamptz(3)
+  revisionId        String               @map("revision_id") @db.Uuid
+  revision          ReportRevision       @relation("ReportLine_revision", fields: [revisionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  recognitionId     String               @map("recognition_id") @db.Uuid
+  recognition       FinancialRecognition @relation("ReportLine_recognition", fields: [recognitionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([revisionId, recognitionId])
+  @@map("report_lines")
+}
+
+model ReportApproval {
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  approvedAt   DateTime       @default(now()) @map("approved_at") @db.Timestamptz(3)
+  reportId     String         @unique @map("report_id") @db.Uuid
+  report       WeeklyReport   @relation("ReportApproval_report", fields: [reportId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  revisionId   String         @unique @map("revision_id") @db.Uuid
+  revision     ReportRevision @relation("ReportApproval_revision", fields: [revisionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  approvedById String         @map("approved_by_id") @db.Uuid
+  approvedBy   StaffUser      @relation("ReportApproval_approvedBy", fields: [approvedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@map("report_approvals")
+}
+
+model ReportTransition {
+  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  action        ReportAction
+  fromStatus    ReportStatus? @map("from_status")
+  toStatus      ReportStatus  @map("to_status")
+  reason        String?
+  reportVersion Int           @map("report_version")
+  reportId      String        @map("report_id") @db.Uuid
+  report        WeeklyReport  @relation("ReportTransition_report", fields: [reportId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  actorId       String?       @map("actor_id") @db.Uuid
+  actor         StaffUser?    @relation("ReportTransition_actor", fields: [actorId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  auditId       String        @unique @map("audit_id") @db.Uuid
+  audit         AuditEvent    @relation("ReportTransition_audit", fields: [auditId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([reportId, reportVersion])
+  @@map("report_transitions")
+}
+
+model CmsItem {
+  id                  String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt           DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  kind                ContentKind
+  page                PublicPage?      @unique
+  slug                String           @unique
+  displayOrder        Int              @default(0) @map("display_order")
+  archivedAt          DateTime?        @map("archived_at") @db.Timestamptz(3)
+  version             Int              @default(0)
+  cmsRevision_item    CmsRevision[]    @relation("CmsRevision_item")
+  cmsPublication_item CmsPublication[] @relation("CmsPublication_item")
+
+  @@index([kind, archivedAt, displayOrder])
+  @@map("cms_items")
+}
+
+model CmsRevision {
+  id                      String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt               DateTime              @default(now()) @map("created_at") @db.Timestamptz(3)
+  number                  Int
+  status                  ContentRevisionStatus @default(DRAFT)
+  titleEn                 String?               @map("title_en")
+  titleUr                 String?               @map("title_ur")
+  summaryEn               String?               @map("summary_en")
+  summaryUr               String?               @map("summary_ur")
+  bodyEn                  String?               @map("body_en")
+  bodyUr                  String?               @map("body_ur")
+  startsAt                DateTime?             @map("starts_at") @db.Timestamptz(3)
+  endsAt                  DateTime?             @map("ends_at") @db.Timestamptz(3)
+  location                String?
+  sanitizedAt             DateTime?             @map("sanitized_at") @db.Timestamptz(3)
+  publishedAt             DateTime?             @map("published_at") @db.Timestamptz(3)
+  itemId                  String                @map("item_id") @db.Uuid
+  item                    CmsItem               @relation("CmsRevision_item", fields: [itemId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  imageId                 String?               @map("image_id") @db.Uuid
+  image                   MediaAsset?           @relation("CmsRevision_image", fields: [imageId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  editedById              String                @map("edited_by_id") @db.Uuid
+  editedBy                StaffUser             @relation("CmsRevision_editedBy", fields: [editedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  publishedById           String?               @map("published_by_id") @db.Uuid
+  publishedBy             StaffUser?            @relation("CmsRevision_publishedBy", fields: [publishedById], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  cmsPublication_revision CmsPublication[]      @relation("CmsPublication_revision")
+
+  @@unique([itemId, number])
+  @@unique([id, itemId])
+  @@index([endsAt])
+  @@map("cms_revisions")
+}
+
+model CmsPublication {
+  itemId      String      @id @map("item_id") @db.Uuid
+  revisionId  String      @unique @map("revision_id") @db.Uuid
+  publishedAt DateTime    @default(now()) @map("published_at") @db.Timestamptz(3)
+  item        CmsItem     @relation("CmsPublication_item", fields: [itemId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  revision    CmsRevision @relation("CmsPublication_revision", fields: [revisionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@map("cms_publications")
+}
+
+model AuditEvent {
+  id                     String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt              DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  actorKind              AuditActorKind     @map("actor_kind")
+  systemActor            String?            @map("system_actor")
+  domain                 String
+  action                 String
+  entityType             String             @map("entity_type")
+  entityId               String             @map("entity_id")
+  before                 Json?              @db.JsonB
+  after                  Json?              @db.JsonB
+  metadata               Json?              @db.JsonB
+  reportTransition_audit ReportTransition[] @relation("ReportTransition_audit")
+  actorId                String?            @map("actor_id") @db.Uuid
+  actor                  StaffUser?         @relation("AuditEvent_actor", fields: [actorId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  branchId               String?            @map("branch_id") @db.Uuid
+  branch                 Branch?            @relation("AuditEvent_branch", fields: [branchId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([branchId, createdAt])
+  @@index([domain, createdAt])
+  @@index([entityType, entityId, createdAt])
+  @@map("audit_events")
 }

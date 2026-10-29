@@ -1,4 +1,108 @@
 {
+  "auth": {
+    "brand": "HopeBridge Welfare Foundation",
+    "switchLanguage": "Switch language",
+    "mission": "Empowering Communities.\nManaging Impact.",
+    "missionBody": "A secure workspace for the people\nmaking a difference.",
+    "portalBrand": "HopeBridge Welfare Foundation · Staff Portal",
+    "welcome": "Welcome back",
+    "loginBody": "Sign in to your staff account to continue.",
+    "email": "Email address",
+    "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "support": "Need help accessing your account?\nContact your Super Admin.",
+    "staffOnly": "Authorized staff access only.",
+    "secureAccount": "Secure your account",
+    "firstLoginBody": "Before accessing your workspace, replace your temporary\npassword with a new one.",
+    "temporaryPassword": "Current temporary password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "passwordGuidance": "✓ Use a strong, unique password (at least 15 characters)\n✓ Avoid commonly used passwords\n✓ New and confirmation passwords must match",
+    "accountGuidance": "Use at least 15 characters and ensure both new entries match.",
+    "updateContinue": "Update password & continue",
+    "updating": "Updating…",
+    "savePassword": "Save new password",
+    "passwordUpdated": "Your password has been updated successfully.",
+    "signOut": "Sign out",
+    "signingOut": "Signing out…",
+    "cancel": "Cancel",
+    "portalAccount": "Staff Portal / My Account",
+    "accountBreadcrumb": "My Account / Security",
+    "accountSecurity": "Account security",
+    "changePassword": "Change password",
+    "changeBody": "Protect your staff account with a strong, unique password.",
+    "checkingSession": "Checking your session...",
+    "returnWorkspace": "Return to my workspace",
+    "signInAgain": "Sign in again",
+    "returnSignIn": "Return to sign in",
+    "logoutTitle": "Sign out?",
+    "logoutBody": "You will need to sign in again to access your workspace.",
+    "workspace": "Staff workspace",
+    "workspaceBody": "Your staff session is active. Business modules will be available as they are implemented.",
+    "retry": "Try again",
+    "roles": {
+      "SUPER_ADMIN": "Super Admin",
+      "FINANCE_REVIEWER": "Finance Reviewer",
+      "CONTENT_EDITOR": "Content Editor",
+      "BRANCH_LEAD": "Branch Lead",
+      "HR_LEAD": "HR Lead"
+    },
+    "status": {
+      "denied": {
+        "title": "Access restricted",
+        "body": "You don't have permission to view this page."
+      },
+      "expired": {
+        "title": "Your session has expired",
+        "body": "For your security, please sign in again to continue."
+      },
+      "temporary-expired": {
+        "title": "Temporary password expired",
+        "body": "Contact your Super Admin for a new temporary password."
+      },
+      "unavailable": {
+        "title": "Account access unavailable",
+        "body": "Please contact your administrator for assistance."
+      },
+      "credentials-changed": {
+        "title": "Your sign-in credentials have changed",
+        "body": "A new sign-in may be required."
+      },
+      "signed-out": {
+        "title": "You have signed out",
+        "body": "Your staff session has ended securely."
+      }
+    },
+    "errors": {
+      "EMAIL_REQUIRED": "Required field",
+      "INVALID_EMAIL": "Enter a valid email address",
+      "PASSWORD_REQUIRED": "Required field",
+      "CURRENT_PASSWORD_REQUIRED": "Required field",
+      "CONFIRM_PASSWORD_REQUIRED": "Required field",
+      "PASSWORD_MIN_LENGTH": "Use at least 15 characters",
+      "PASSWORD_TOO_LONG": "Use no more than 200 characters",
+      "PASSWORDS_DO_NOT_MATCH": "Passwords do not match",
+      "NEW_PASSWORD_MUST_DIFFER": "New password must differ from the current password",
+      "INVALID_CREDENTIALS": "Unable to sign in. Check your credentials or contact your administrator.",
+      "NETWORK_ERROR": "Network error. Please try again.",
+      "INTERNAL_ERROR": "The service is unavailable. Please try again.",
+      "CURRENT_PASSWORD_INCORRECT": "Current password is incorrect",
+      "VALIDATION_ERROR": "Check the submitted fields",
+      "SESSION_EXPIRED": "Your session has expired. Please sign in again.",
+      "TEMPORARY_PASSWORD_EXPIRED": "Your temporary password has expired. Contact your Super Admin for a new one.",
+      "ACCOUNT_UNAVAILABLE": "Please contact your administrator for assistance.",
+      "CREDENTIALS_CHANGED": "Your sign-in credentials have changed. Please sign in again.",
+      "PASSWORD_CHANGE_REQUIRED": "Replace your temporary password before continuing.",
+      "ACCESS_DENIED": "You don't have permission to perform this action.",
+      "CSRF_REJECTED": "Please refresh the page and try again.",
+      "ORIGIN_REJECTED": "This request could not be verified. Use the staff portal to continue.",
+      "RATE_LIMITED": "Too many attempts. Please try again later."
+    }
+  },
   "brand": "ShipLens",
   "switchLanguage": "اردو",
   "navigation": "Main navigation",

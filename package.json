@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=24 <25"
+    "node": ">=24.7 <25"
   },
   "workspaces": [
     "apps/frontend",
@@ -20,7 +20,8 @@
     "format:check": "prettier --check .",
     "test": "npm run build -w @shiplens/contracts && npm run test -w @shiplens/backend",
     "test:integration": "npm run test:integration -w @shiplens/backend",
-    "test:e2e": "playwright test -c e2e/playwright.config.ts",
+    "test:e2e": "playwright test -c e2e/playwright.config.ts && playwright test -c e2e/auth.config.ts",
+    "test:e2e:auth": "playwright test -c e2e/auth.config.ts",
     "db:generate": "npm run db:generate -w @shiplens/backend",
     "db:migrate": "npm run db:migrate -w @shiplens/backend",
     "db:deploy": "npm run db:deploy -w @shiplens/backend",

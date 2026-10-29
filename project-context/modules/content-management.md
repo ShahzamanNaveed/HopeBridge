@@ -8,7 +8,7 @@ Dependencies: authorization, shared audit and branches approved public-data proj
 
 Planned APIs (proposed, no routes implemented): Draft editing, authorized Preview, Publish, Unpublish, Archive and actively published public reads. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Stable logical items, localized revisions, independent draft/published revision references, visibility and publish/archive metadata; no finalized tables/columns. Revision state and logical-item public visibility are distinct.
+Database relationships (initial DB-01 physical contract in docs/database.md): Stable logical items, localized revisions, independent draft/published revision references, visibility and publish/archive metadata; initial tables/columns now implemented by DB-01. Revision state and logical-item public visibility are distinct.
 
 Official Requirements: Seven public pages: Home, About, Programs, Branches, Events, Get Involved and Contact. Content has draft/publish states; public/internal interfaces support English/Urdu RTL.
 
@@ -30,7 +30,7 @@ Workflow details: [Draft/Preview/Publish](../../docs/flows/content-editor/draft-
 
 ## CMS-001 to CMS-007 - DECIDED content contracts
 
-Approved HWF policies refining CE-001 to CE-005; no CMS models, endpoints or business tests implemented. Fields below are conceptual, not finalized Prisma column names.
+Approved HWF policies refining CE-001 to CE-005; DB-01 CMS storage/constraints are implemented/tested; CMS endpoints/sanitizer and full feature tests remain unimplemented. Fields map to the physical contract in docs/database.md.
 
 | Content type          | Required for Publish in the same revision                                        | Other supported fields                                        |
 | --------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------- |
@@ -71,7 +71,7 @@ Approved HWF policies refining CE-001 to CE-005; no CMS models, endpoints or bus
 
 Integration ownership: established backend/frontend module `content`. Own bilingual Program/Event/Page revisions/publication/retirement. Backend validates shared DTOs and sanitizes; public projections never expose Draft/history/private data. Use same transaction for pointer/history/audit and meet immediate retirement/cache guarantee; no operational branch repository edits. See [shared integration contracts](../../docs/architecture.md) and [API categories](../../docs/api.md). These are planned interfaces, not implemented services.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status: DB-01 shared storage is implemented and PostgreSQL-tested; module business services/endpoints/UI and full acceptance remain planned, not deployed. See [physical model/consumer contract](../../docs/database.md) and [DB-01 evidence](../12-development-handoff.md).
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 

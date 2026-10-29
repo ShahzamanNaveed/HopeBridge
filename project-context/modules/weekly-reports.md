@@ -8,7 +8,7 @@ Dependencies: collections financial projection/recognition ports, branches eligi
 
 Planned APIs/system behavior (proposed, no routes implemented): Scheduled generation/recovery, scoped report reads, submit, return, resubmit and Finance approval actions; final locking is automatic in approval, not a separate API/user action. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Report snapshots, source collections and transition history.
+Database relationships (initial DB-01 physical contract in docs/database.md): Report snapshots, source collections and transition history.
 
 Official Requirements: Auto-draft, submit, return, resubmit, approve and lock. The recorded draft -> submit -> return -> resubmit -> approve -> lock sequence is not a complete transition graph. Approved report figures are immutable even after source edits. Audit every transition atomically; use transactions for critical changes.
 
@@ -98,7 +98,7 @@ EXP-001 permits authorized organization-wide Super Admin/Finance financial CSV/P
 
 Integration ownership: established backend/frontend module `reports`. Own canonical report generation/recovery, state/eligibility, preserved revisions and immutable final snapshots. Collections owns monetary sources/recognition/accounting. Coordinate source inclusion, current version and audit in same transaction, never independently confirm remittances or recompute incompatible financial measures. See [shared integration contracts](../../docs/architecture.md) and [API categories](../../docs/api.md). These are planned interfaces, not implemented services.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status: DB-01 shared storage is implemented and PostgreSQL-tested; module business services/endpoints/UI and full acceptance remain planned, not deployed. See [physical model/consumer contract](../../docs/database.md) and [DB-01 evidence](../12-development-handoff.md).
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 

@@ -8,7 +8,7 @@ Dependencies: all mutating business modules.
 
 Planned APIs (proposed, no routes implemented): PERM-scoped sanitized audit queries; audit-file export authority remains PENDING, distinct from EXP financial exports. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Actor, action, entity, timestamp and transaction context.
+Database relationships (initial DB-01 physical contract in docs/database.md): Actor, action, entity, timestamp and transaction context.
 
 Official Requirements: Audit changes and report transitions, preserve immutable approved report figures and use transactions for critical financial/report/audit changes. CSV/PDF export is required system-wide; audit export scope is not finalized.
 
@@ -32,7 +32,7 @@ The established audit module supplies ONE shared append writer: audited source m
 
 EXP-004 successful financial exports append sanitized actor/action/time/effective scope/filters/format/source revision IDs; no unnecessary file contents/secrets. Failed/denied attempts are not successful-export audit. EXP-001 to EXP-004 do not grant audit-file exports. [Integration ownership](../../docs/architecture.md) and [transaction boundaries](../../docs/database.md) are planned contracts; none implemented. Future tests cover five role/domain reads, old-branch/direct-ID denial, secret exclusion, audit update/delete denial and transactional rollback.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status: DB-01 append-only storage and transaction-bound sanitized appendAudit service are implemented and unit/PostgreSQL-tested. Permission-scoped reads/audit UI/export operations remain unimplemented; no public mutation endpoint. See [database contract](../../docs/database.md) and [current evidence](../12-development-handoff.md).
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 

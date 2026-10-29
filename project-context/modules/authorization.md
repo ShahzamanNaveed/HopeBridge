@@ -8,7 +8,7 @@ Dependencies: authentication, branches.
 
 Planned APIs (proposed, no routes implemented): Policy enforcement on each protected endpoint. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Roles, permissions and user/branch assignments.
+Database relationships (initial DB-01 physical contract in docs/database.md): Roles, permissions and user/branch assignments.
 
 Official Requirements: Server-enforced permissions and branch isolation for exactly five authenticated roles.
 
@@ -24,9 +24,9 @@ Exactly five authenticated staff roles: Super Admin, Finance Reviewer, Branch Le
 - **EXP-001 to EXP-004 - DECIDED:** Financial CSV/PDF for authorized organization-wide Super Admin/Finance and current-branch Lead only; HR/Content Editor/Public denied. Server filters/effective revision/exact Decimal totals, CSV/PDF safety and private successful-export audit required; no audit-file export grant.
 - **AUTH-001 to AUTH-006 - DECIDED:** Approved server credential/session controls apply; temporary login cannot perform ordinary work, invalid/expired/revoked/inactive sessions fail. Current role/single assignment is authoritative on EVERY protected request. Deactivation/reset immediately revokes required sessions; branch replacement immediately invalidates outgoing scope even with old cookies/caches. Reassignment grants no automatic other branch; transaction failure retains old valid state/access.
 
-Policy checks precede scoped service/repository operations and repeat inside critical transactions against current state/version. Shared auth/policy/audit implementation must not be duplicated by feature teams; [module/transaction ports](../../docs/architecture.md) define integration without cross-module repository imports. Future tests must exercise permitted and forbidden role/domain/branch/direct-ID/filter/session combinations, not UI-only hiding. No business policy middleware is implemented yet.
+Policy checks precede scoped service/repository operations and repeat inside critical transactions against current state/version. Shared auth/policy/audit implementation must not be duplicated by feature teams; [module/transaction ports](../../docs/architecture.md) define integration without cross-module repository imports. Future tests must exercise permitted and forbidden role/domain/branch/direct-ID/filter/session combinations, not UI-only hiding. A-02 now provides tested policy middleware/transactional ports; future domain services must consume them for their own record/state checks.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status (2026-10-29): A-02 implements/tests explicit deny-by-default role/action/current-branch policy and transactional read/mutation authorization ports. Direct forbidden-role/cross-branch/former-lead tests pass. Domain record/state checks, actual Users/Branches lifecycle coordinators and B integration remain required. See [consumer contract](../../docs/authentication.md) and [ledger](../12-development-handoff.md); no deployment claim.
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 

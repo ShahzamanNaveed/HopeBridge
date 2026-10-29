@@ -1,16 +1,18 @@
 # Architecture
 
+Current A-02 addition (2026-10-29): real auth repository/service/router, PostgreSQL sessions, transactional permission ports and EN/UR React authentication are implemented/tested locally on the existing DB-01 models. [Authentication implementation and consumer contract](authentication.md) supersedes earlier statements below that auth/client mutations were still only planned; other domain implementations and B consumer acceptance remain pending.
+
 Accepted: modular monolith using npm workspaces. React/Vite in apps/frontend communicates with versioned Express HTTP endpoints in apps/backend. Both consume packages/contracts. PostgreSQL is the source of truth, accessed through Prisma and its PostgreSQL driver adapter. Production Express serves frontend assets on the same origin; Vite proxies requests during development.
 
 Frontend features own domain UI; shared components own reusable primitives; layouts own navigation. Backend modules will own routes/controllers, services/policies and repositories. Infrastructure supplies database connectivity and observability plus technical adapters for sessions/export rendering/audit persistence; domain services below own their policies and orchestration. Do not duplicate business rules in the browser.
 
-The only table currently defined is foundation_markers, an infrastructure marker used by optional idempotent seed infrastructure. It is not a proposed business model. Health runs SELECT 1 and returns 503 if PostgreSQL cannot be queried.
+DB-01 now defines the initial shared business schema plus unchanged foundation_markers; see [implemented models/SQL contracts](database.md). No official financial fixtures or staff credentials are seeded. Health runs SELECT 1 and returns 503 if PostgreSQL cannot be queried.
 
-No physical domain ERD/models are implemented or finalized. AUTH, action-level permissions and financial policies are approved documentation; their implementation and remaining specific decisions belong to the next milestone. See [ADR 0001](adr/0001-foundation.md), [permissions](permissions.md) and [remaining clarifications](requirements/clarifications.md).
+Initial physical models/migrations and shared audit writer are implemented/tested locally under DB-01; domain services remain to implement. AUTH, action-level permissions and financial policies are approved documentation; their implementation and remaining specific decisions belong to the next milestone. See [ADR 0001](adr/0001-foundation.md), [permissions](permissions.md) and [remaining clarifications](requirements/clarifications.md).
 
 ## Pre-development integration baseline (2026-10-28; documentation only)
 
-Keep HopeBridge and @shiplens/frontend, @shiplens/backend, @shiplens/contracts names. Existing frontend router has seven public shells plus a public /dashboard preview; no business RBAC/session/CMS/report endpoint exists. Shared code currently defines pagination, errors and health only; Prisma defines FoundationMarker only. React 19/Vite/TypeScript and Express 5/TypeScript/PostgreSQL/Prisma remain the stack. No new business module is needed to organize contracts.
+Keep HopeBridge and @shiplens/frontend, @shiplens/backend, @shiplens/contracts names. Existing frontend router has seven public shells plus a public /dashboard preview; no business RBAC/session/CMS/report endpoint exists. Shared code currently defines pagination, errors and health only; Prisma defines 33 mapped models and 21 enums, including FoundationMarker. React 19/Vite/TypeScript and Express 5/TypeScript/PostgreSQL/Prisma remain the stack. No new business module is needed to organize contracts.
 
 ### Module ownership
 
@@ -53,4 +55,6 @@ Frontend features use the central apps/frontend/src/services/api-client.ts and T
 
 ### Parallel ownership handoff
 
-The [two-workstream proposal](../project-context/04-development-roadmap.md) is unassigned until owner confirmation. One accountable schema/migration owner at a time; one shared auth/RBAC middleware and audit service; clear domain owner for each shared contract. Central Prisma schema, router and shared middleware edits require coordination. Review financial recognition/snapshot interfaces before collections/reports parallel work; review versioned contract changes with the consuming developer before implementation, never private API assumptions. This is an integration baseline, not authorization to implement during this task.
+The [authoritative A/B allocation](../project-context/11-team-ownership.md) supersedes the older workstream proposal; its [dependency roadmap](../project-context/04-development-roadmap.md) still requires consumer coordination. One accountable schema/migration owner at a time; one shared auth/RBAC middleware and audit service; clear domain owner for each shared contract. Central Prisma schema, router and shared middleware edits require coordination. Review financial recognition/snapshot interfaces before collections/reports parallel work; review versioned contract changes with the consuming developer before implementation, never private API assumptions. This is an integration baseline, not authorization to implement during this task.
+
+DB-01 shared implementation: modules/audit/audit.service.ts appends sanitized events in the caller transaction; infrastructure/db/city-sequence.ts atomically allocates city counters; infrastructure/db/money-input.ts rejects invalid Decimal transport before writes. No audit read endpoint, login/RBAC, HR/finance/CMS business service or UI is implemented by this storage milestone. [Current handoff/evidence](../project-context/12-development-handoff.md) owns progress.

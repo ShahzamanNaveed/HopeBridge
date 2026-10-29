@@ -8,7 +8,7 @@ Dependencies: users/auth eligibility through application ports, authorization po
 
 Planned APIs (proposed, no routes implemented): Branch registration, review and lifecycle actions. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Branches and responsible users.
+Database relationships (initial DB-01 physical contract in docs/database.md): Branches and responsible users.
 
 Official Requirements: Branch statuses are Forming, Active, Paused and Closed. **SA-005/SA-006 - DECIDED:** Super Admin alone changes lifecycle: Forming -> Active/Closed; Active -> Paused/Closed; Paused -> Active/Closed; Closed -> none. Closed is terminal; retain code/history. See [authoritative branch workflow](../../docs/flows/super-admin/manage-branches.md).
 
@@ -22,7 +22,7 @@ Future FIN-014 checks: new ordinary Closed collections fail; authorized historic
 
 Integration ownership: established backend/frontend module `branches`. Own branch IDs/city/code/lifecycle/current lead. Expose scoped authoritative branch eligibility/city/assignment DTOs; other modules cannot edit its repository. Staff replacement composes users/auth ports with one transaction/audit and immediate stale-scope invalidation. See [shared integration contracts](../../docs/architecture.md) and [API categories](../../docs/api.md). These are planned interfaces, not implemented services.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status: DB-01 shared storage is implemented and PostgreSQL-tested; module business services/endpoints/UI and full acceptance remain planned, not deployed. See [physical model/consumer contract](../../docs/database.md) and [DB-01 evidence](../12-development-handoff.md).
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 

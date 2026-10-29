@@ -8,7 +8,7 @@ Dependencies: branches/member eligibility and reports state/period/version appli
 
 Planned APIs (proposed, no routes implemented): Collection entry and scoped listing. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Collections, branches, occurrence-based reporting periods, original-linked signed adjustments and branch-recorded/Finance-confirmed remittances. New records/field names are conceptual, not implemented schema.
+Database relationships (initial DB-01 physical contract in docs/database.md): Collections, branches, occurrence-based reporting periods, original-linked signed adjustments and branch-recorded/Finance-confirmed remittances. Initial physical model/field names are now in docs/database.md.
 
 Official Requirements: Offline collection records with a server-enforced seven-day edit lock and audit trails. No online payment integration.
 
@@ -86,7 +86,7 @@ EXP-001 permits authorized organization-wide Super Admin/Finance financial CSV/P
 
 Integration ownership: established backend/frontend module `collections`. Own financial originals/adjustments/recognition metadata/remittances and canonical exact PKR accounting. Reports owns canonical periods/revisions/line inclusion/final snapshots. Exchange eligible source projections and recognition commands with same transaction/version checks; no report repository imports, separate commits or duplicate accounting engine. See [shared integration contracts](../../docs/architecture.md) and [API categories](../../docs/api.md). These are planned interfaces, not implemented services.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status: DB-01 shared storage is implemented and PostgreSQL-tested; module business services/endpoints/UI and full acceptance remain planned, not deployed. See [physical model/consumer contract](../../docs/database.md) and [DB-01 evidence](../12-development-handoff.md).
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 

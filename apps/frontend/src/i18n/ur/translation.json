@@ -1,4 +1,108 @@
 {
+  "auth": {
+    "brand": "ہوپ برج ویلفیئر فاؤنڈیشن",
+    "switchLanguage": "زبان تبدیل کریں",
+    "mission": "Empowering Communities.\nManaging Impact.",
+    "missionBody": "A secure workspace for the people\nmaking a difference.",
+    "portalBrand": "HopeBridge Welfare Foundation · Staff Portal",
+    "welcome": "خوش آمدید",
+    "loginBody": "جاری رکھنے کے لیے اپنے اسٹاف اکاؤنٹ میں سائن اِن کریں۔",
+    "email": "ای میل ایڈریس",
+    "password": "پاس ورڈ",
+    "showPassword": "پاس ورڈ دکھائیں",
+    "hidePassword": "پاس ورڈ چھپائیں",
+    "signIn": "سائن اِن کریں",
+    "signingIn": "سائن اِن ہو رہا ہے…",
+    "support": "مدد چاہیے؟ اپنے سپر ایڈمن سے رابطہ کریں۔",
+    "staffOnly": "صرف مجاز عملے کے لیے",
+    "secureAccount": "اپنے اکاؤنٹ کو محفوظ بنائیں",
+    "firstLoginBody": "ورک اسپیس میں جانے سے پہلے اپنا عارضی پاس ورڈ تبدیل کریں۔",
+    "temporaryPassword": "موجودہ عارضی پاس ورڈ",
+    "currentPassword": "موجودہ پاس ورڈ",
+    "newPassword": "نیا پاس ورڈ",
+    "confirmPassword": "نئے پاس ورڈ کی تصدیق",
+    "passwordGuidance": "✓ کم از کم ۱۵ حروف کا مضبوط اور منفرد پاس ورڈ استعمال کریں\n✓ عام پاس ورڈ سے گریز کریں\n✓ دونوں نئے پاس ورڈ ایک جیسے ہوں",
+    "accountGuidance": "کم از کم ۱۵ حروف استعمال کریں اور دونوں نئے پاس ورڈ ایک جیسے رکھیں۔",
+    "updateContinue": "پاس ورڈ اپ ڈیٹ کریں اور جاری رکھیں",
+    "updating": "اپ ڈیٹ ہو رہا ہے…",
+    "savePassword": "نیا پاس ورڈ محفوظ کریں",
+    "passwordUpdated": "آپ کا پاس ورڈ کامیابی سے تبدیل ہو گیا ہے۔",
+    "signOut": "سائن آؤٹ",
+    "signingOut": "سائن آؤٹ ہو رہا ہے…",
+    "cancel": "منسوخ کریں",
+    "portalAccount": "اسٹاف پورٹل / میرا اکاؤنٹ",
+    "accountBreadcrumb": "میرا اکاؤنٹ / سیکیورٹی",
+    "accountSecurity": "اکاؤنٹ کی سیکیورٹی",
+    "changePassword": "پاس ورڈ تبدیل کریں",
+    "changeBody": "مضبوط اور منفرد پاس ورڈ سے اپنے اسٹاف اکاؤنٹ کو محفوظ بنائیں۔",
+    "checkingSession": "آپ کا سیشن چیک کیا جا رہا ہے…",
+    "returnWorkspace": "اپنی ورک اسپیس پر واپس جائیں",
+    "signInAgain": "دوبارہ سائن اِن کریں",
+    "returnSignIn": "سائن اِن پر واپس جائیں",
+    "logoutTitle": "سائن آؤٹ کریں؟",
+    "logoutBody": "ورک اسپیس میں جانے کے لیے آپ کو دوبارہ سائن اِن کرنا ہو گا۔",
+    "workspace": "اسٹاف ورک اسپیس",
+    "workspaceBody": "آپ کا اسٹاف سیشن فعال ہے۔ متعلقہ شعبوں کی سہولیات تیار ہونے پر دستیاب ہوں گی۔",
+    "retry": "دوبارہ کوشش کریں",
+    "roles": {
+      "SUPER_ADMIN": "سپر ایڈمن",
+      "FINANCE_REVIEWER": "فنانس ریویور",
+      "CONTENT_EDITOR": "کانٹینٹ ایڈیٹر",
+      "BRANCH_LEAD": "برانچ لیڈ",
+      "HR_LEAD": "ایچ آر لیڈ"
+    },
+    "status": {
+      "denied": {
+        "title": "رسائی محدود ہے",
+        "body": "آپ کو یہ صفحہ دیکھنے کی اجازت نہیں ہے۔"
+      },
+      "expired": {
+        "title": "آپ کے سیشن کی مدت ختم ہو گئی ہے",
+        "body": "آپ کی حفاظت کے لیے، جاری رکھنے سے پہلے دوبارہ سائن اِن کریں۔"
+      },
+      "temporary-expired": {
+        "title": "عارضی پاس ورڈ کی مدت ختم ہو گئی ہے",
+        "body": "نئے عارضی پاس ورڈ کے لیے اپنے سپر ایڈمن سے رابطہ کریں۔"
+      },
+      "unavailable": {
+        "title": "اکاؤنٹ تک رسائی دستیاب نہیں",
+        "body": "مدد کے لیے اپنے ایڈمن سے رابطہ کریں۔"
+      },
+      "credentials-changed": {
+        "title": "آپ کی سائن اِن کی تفصیلات تبدیل ہو گئی ہیں",
+        "body": "آپ کو دوبارہ سائن اِن کرنا پڑ سکتا ہے۔"
+      },
+      "signed-out": {
+        "title": "آپ سائن آؤٹ ہو گئے ہیں",
+        "body": "آپ کا اسٹاف سیشن محفوظ طریقے سے ختم ہو گیا ہے۔"
+      }
+    },
+    "errors": {
+      "EMAIL_REQUIRED": "یہ خانہ پُر کریں",
+      "INVALID_EMAIL": "درست ای میل ایڈریس درج کریں",
+      "PASSWORD_REQUIRED": "یہ خانہ پُر کریں",
+      "CURRENT_PASSWORD_REQUIRED": "یہ خانہ پُر کریں",
+      "CONFIRM_PASSWORD_REQUIRED": "یہ خانہ پُر کریں",
+      "PASSWORD_MIN_LENGTH": "کم از کم ۱۵ حروف استعمال کریں",
+      "PASSWORD_TOO_LONG": "۲۰۰ سے زیادہ حروف استعمال نہ کریں",
+      "PASSWORDS_DO_NOT_MATCH": "دونوں پاس ورڈ ایک جیسے نہیں ہیں",
+      "NEW_PASSWORD_MUST_DIFFER": "نیا پاس ورڈ موجودہ پاس ورڈ سے مختلف ہونا چاہیے",
+      "INVALID_CREDENTIALS": "سائن اِن نہیں ہو سکا۔ اپنی تفصیلات چیک کریں یا اپنے ایڈمن سے رابطہ کریں۔",
+      "NETWORK_ERROR": "نیٹ ورک کی خرابی ہے۔ دوبارہ کوشش کریں۔",
+      "INTERNAL_ERROR": "سروس دستیاب نہیں ہے۔ دوبارہ کوشش کریں۔",
+      "CURRENT_PASSWORD_INCORRECT": "موجودہ پاس ورڈ درست نہیں ہے",
+      "VALIDATION_ERROR": "درج کی گئی معلومات چیک کریں",
+      "SESSION_EXPIRED": "آپ کے سیشن کی مدت ختم ہو گئی ہے۔ دوبارہ سائن اِن کریں۔",
+      "TEMPORARY_PASSWORD_EXPIRED": "آپ کے عارضی پاس ورڈ کی مدت ختم ہو گئی ہے۔ نئے پاس ورڈ کے لیے سپر ایڈمن سے رابطہ کریں۔",
+      "ACCOUNT_UNAVAILABLE": "مدد کے لیے اپنے ایڈمن سے رابطہ کریں۔",
+      "CREDENTIALS_CHANGED": "آپ کی سائن اِن کی تفصیلات تبدیل ہو گئی ہیں۔ دوبارہ سائن اِن کریں۔",
+      "PASSWORD_CHANGE_REQUIRED": "جاری رکھنے سے پہلے اپنا عارضی پاس ورڈ تبدیل کریں۔",
+      "ACCESS_DENIED": "آپ کو یہ کام کرنے کی اجازت نہیں ہے۔",
+      "CSRF_REJECTED": "صفحہ ریفریش کر کے دوبارہ کوشش کریں۔",
+      "ORIGIN_REJECTED": "درخواست کی تصدیق نہیں ہو سکی۔ اسٹاف پورٹل سے دوبارہ کوشش کریں۔",
+      "RATE_LIMITED": "بہت زیادہ کوششیں ہو چکی ہیں۔ کچھ دیر بعد دوبارہ کوشش کریں۔"
+    }
+  },
   "brand": "شپ لینس",
   "switchLanguage": "English",
   "navigation": "مرکزی رہنمائی",

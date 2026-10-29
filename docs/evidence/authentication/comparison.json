@@ -1,0 +1,205 @@
+{
+  "method": "Pillow RGB absolute difference at matching dimensions; original exported path references versus Chromium captures",
+  "pairs": [
+    {
+      "frame": "01",
+      "width": 1440,
+      "height": 900,
+      "meanAbsoluteRgbErrorPercent": 0.4475,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 1.5651,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "02",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 0.5692,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 2.5747,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "03",
+      "width": 1440,
+      "height": 900,
+      "meanAbsoluteRgbErrorPercent": 0.4798,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 1.5157,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "04",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 0.9086,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 3.4099,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "05",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 1.1819,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 4.4115,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "06",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 0.7641,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 3.1987,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "07",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 0.7542,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 2.8858,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "08",
+      "width": 1440,
+      "height": 900,
+      "meanAbsoluteRgbErrorPercent": 0.6178,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 2.0445,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "09",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 1.3795,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 4.7269,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "10",
+      "width": 1440,
+      "height": 900,
+      "meanAbsoluteRgbErrorPercent": 0.5846,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 1.7803,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "11",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 1.7643,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 5.4967,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "12",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 1.8707,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 5.7583,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "13",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 1.6919,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 5.4575,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "14",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 1.5357,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 4.9143,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "15",
+      "width": 390,
+      "height": 844,
+      "meanAbsoluteRgbErrorPercent": 1.6136,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 5.3469,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "16",
+      "width": 720,
+      "height": 700,
+      "meanAbsoluteRgbErrorPercent": 32.5549,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 44.756,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "17",
+      "width": 1440,
+      "height": 900,
+      "meanAbsoluteRgbErrorPercent": 0.3708,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 1.6689,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "18",
+      "width": 900,
+      "height": 720,
+      "meanAbsoluteRgbErrorPercent": 0.3372,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 1.0563,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "19",
+      "width": 900,
+      "height": 720,
+      "meanAbsoluteRgbErrorPercent": 0.2463,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 0.8994,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "20",
+      "width": 900,
+      "height": 720,
+      "meanAbsoluteRgbErrorPercent": 0.2693,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 1.0218,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "21",
+      "width": 900,
+      "height": 720,
+      "meanAbsoluteRgbErrorPercent": 0.2472,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 0.9449,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "22",
+      "width": 900,
+      "height": 720,
+      "meanAbsoluteRgbErrorPercent": 0.2334,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 0.9065,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "23",
+      "width": 720,
+      "height": 540,
+      "meanAbsoluteRgbErrorPercent": 0.2835,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 0.8323,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "24",
+      "width": 900,
+      "height": 620,
+      "meanAbsoluteRgbErrorPercent": 0.2543,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 0.8525,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    },
+    {
+      "frame": "25",
+      "width": 900,
+      "height": 650,
+      "meanAbsoluteRgbErrorPercent": 0.2704,
+      "pixelsWithAnyChannelDifferenceAbove24Percent": 0.8981,
+      "note": "Informational raster differences, not an acceptance threshold; see documented deviations."
+    }
+  ]
+}

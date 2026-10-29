@@ -8,10 +8,18 @@ import { healthSchema } from '@shiplens/contracts';
 import { logger } from './infrastructure/observability/logger.js';
 import { HttpError } from './common/errors/http-error.js';
 import { errorHandler } from './common/middleware/error-handler.js';
+import { authRouter } from './modules/auth/auth.router.js';
+import type { AuthService } from './modules/auth/auth.service.js';
 export function createApp(options: {
   checkDatabase: () => Promise<void>;
   frontendPath?: string;
   rateLimitMax?: number;
+  auth?: {
+    service: AuthService;
+    origins: readonly string[];
+    secure: boolean;
+    loginLimit?: number;
+  };
 }) {
   const app = express();
   app.disable('x-powered-by');
@@ -61,6 +69,16 @@ export function createApp(options: {
     }),
   );
   app.use(express.json({ limit: '100kb' }));
+  if (options.auth)
+    app.use(
+      '/api/v1/auth',
+      authRouter(
+        options.auth.service,
+        options.auth.origins,
+        options.auth.secure,
+        options.auth.loginLimit,
+      ),
+    );
   app.get('/api/v1', (_req, res) =>
     res.json({
       data: { name: 'ShipLens', version: 'v1', stage: 'foundation' },
