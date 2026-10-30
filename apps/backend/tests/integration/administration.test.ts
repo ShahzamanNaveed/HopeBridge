@@ -16,6 +16,7 @@ import { BranchesRepository } from '../../src/modules/branches/branches.reposito
 import { AuditRepository } from '../../src/modules/audit/audit.repository.js';
 import { adminListSchema } from '@shiplens/contracts';
 import { createApp } from '../../src/app.js';
+import { seedDevelopmentCities } from '../../prisma/development-cities.js';
 
 const name = `hopebridge_admin_test_${randomUUID().replaceAll('-', '')}`;
 const origin = 'http://127.0.0.1:5173';
@@ -116,6 +117,58 @@ afterAll(async () => {
   if (control) await control.end();
 });
 describe('A-03 real PostgreSQL administration', () => {
+  it('seeds reference cities idempotently without touching counters, branches or migration history', async () => {
+    // Existing synthetic Lahore is deliberately a conflicting mapping. Abort all
+    // reference additions rather than rename a city already used by branches.
+    await expect(seedDevelopmentCities(db)).rejects.toThrow(
+      'Conflicting reference mapping',
+    );
+    expect(
+      await db.city.count({ where: { code: { in: ['FSD', 'ISB'] } } }),
+    ).toBe(0);
+    await db.city.update({ where: { id: cityId }, data: { name: 'Lahore' } });
+    const counter = await db.cityCounter.upsert({
+      where: { cityId_kind: { cityId, kind: 'VOLUNTEER' } },
+      create: { cityId, kind: 'VOLUNTEER', value: 17n },
+      update: {},
+    });
+    const migrations =
+      await db.$queryRaw`SELECT migration_name,checksum FROM _prisma_migrations ORDER BY migration_name`;
+    const branches = await db.branch.findMany();
+    const first = await seedDevelopmentCities(db);
+    expect(first.filter((x) => x.created).map((x) => x.code)).toEqual([
+      'FSD',
+      'ISB',
+    ]);
+    const before = await db.city.findMany({ orderBy: { code: 'asc' } });
+    expect((await seedDevelopmentCities(db)).every((x) => !x.created)).toBe(
+      true,
+    );
+    expect(await db.city.findMany({ orderBy: { code: 'asc' } })).toEqual(
+      before,
+    );
+    expect(await db.branch.findMany()).toEqual(branches);
+    expect(
+      await db.cityCounter.findUnique({
+        where: { cityId_kind: { cityId, kind: 'VOLUNTEER' } },
+      }),
+    ).toEqual(counter);
+    expect(
+      await db.$queryRaw`SELECT migration_name,checksum FROM _prisma_migrations ORDER BY migration_name`,
+    ).toEqual(migrations);
+    await db.$transaction(async (tx) => {
+      await tx.city.update({
+        where: { code: 'ISB' },
+        data: { name: 'Conflicting Islamabad' },
+      });
+    });
+    await expect(seedDevelopmentCities(db)).rejects.toThrow(
+      'Conflicting reference mapping',
+    );
+    expect(
+      (await db.city.findUniqueOrThrow({ where: { code: 'ISB' } })).name,
+    ).toBe('Conflicting Islamabad');
+  });
   it('creates hash-only 24h credentials, discloses once, and enforces first-login change', async () => {
     const response = await request(app)
       .post('/api/v1/admin/staff')
@@ -326,8 +379,10 @@ describe('A-03 real PostgreSQL administration', () => {
     expect(new Set(values.map((x) => x.code)).size).toBe(4);
     expect(values.every((x) => /^LHR-\d{3}$/.test(x.code))).toBe(true);
     const b = values[0]!;
-    const city = await db.city.create({
-      data: { name: 'Synthetic Faisalabad', code: 'FSD' },
+    const city = await db.city.upsert({
+      where: { code: 'FSD' },
+      create: { name: 'Synthetic Faisalabad', code: 'FSD' },
+      update: {},
     });
     const updated = await service.updateBranch(
       owner.token,

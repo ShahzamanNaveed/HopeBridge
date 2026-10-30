@@ -16,6 +16,8 @@ DB-01 now implements the initial names/enums/indexes below; future changes requi
 
 ## Migration conventions
 
+Development reference data (A-03.1): opt in with `npm run db:seed -w @shiplens/backend -- -- --development-cities`. This command requires a loopback PostgreSQL `hopebridge_dev` target and rejects production mode. It adds only Lahore=`LHR`, Faisalabad=`FSD`, Islamabad=`ISB`, explicitly paired in the [identification workflow](flows/hr-lead/volunteer-identification.md). Repeated runs preserve IDs and existing rows; conflicting names/codes abort atomically without remapping or partial additions. It does not initialize/reset counters, create branches/users, apply migrations or alter histories. The normal seed without this flag retains its existing infrastructure-marker behavior. General city-code administration remains pending; no unspecified city codes are introduced.
+
 Commit migrations; use npm run db:migrate for reviewed development migrations and npm run db:deploy in CI/production. Generate the Prisma client with npm run db:generate after schema changes. Seed is idempotent and creates only an infrastructure marker, not users or invented financial data. Production backups and restore validation must precede business rollout.
 
 Finalize domain relationships, report snapshots, audit immutability and transactional boundaries before implementing business modules. Never run reset or destructive migrations against a shared database without explicit approval.
