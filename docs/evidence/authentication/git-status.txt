@@ -1,0 +1,90 @@
+A-02 final working-tree snapshot (no commit/push/upload)
+Evidence PNGs are local-only and gitignored by user request.
+Branch: feature/dev-a-foundation
+HEAD: 3a666f9ab3075320bc55e293666bea4b2eab1286
+Includes preserved preexisting ENV-01/DB-01 work.
+
+ M .env.example
+ M .gitignore
+ M apps/backend/package.json
+ M apps/backend/prisma.config.ts
+ M apps/backend/prisma/schema.prisma
+ M apps/backend/src/app.ts
+ M apps/backend/src/config/env.ts
+ M apps/backend/src/server.ts
+ M apps/backend/vitest.integration.config.ts
+ M apps/frontend/src/app/router.tsx
+ M apps/frontend/src/i18n/en/translation.json
+ M apps/frontend/src/i18n/index.ts
+ M apps/frontend/src/i18n/ur/translation.json
+ M apps/frontend/src/services/api-client.ts
+ M apps/frontend/vite.config.ts
+ M docker-compose.yml
+ M docs/api.md
+ M docs/architecture.md
+ M docs/database.md
+ M docs/requirements/requirements-matrix.md
+ M docs/security.md
+ M docs/test-plan.md
+ M e2e/playwright.config.ts
+ M package.json
+ M packages/contracts/src/index.ts
+ M project-context/02-requirements-tracker.md
+ M project-context/03-current-state.md
+ M project-context/05-module-status.md
+ M project-context/12-development-handoff.md
+ M project-context/modules/applications.md
+ M project-context/modules/audit-trail.md
+ M project-context/modules/authentication.md
+ M project-context/modules/authorization.md
+ M project-context/modules/branches.md
+ M project-context/modules/collections.md
+ M project-context/modules/content-management.md
+ M project-context/modules/dashboard.md
+ M project-context/modules/members.md
+ M project-context/modules/weekly-reports.md
+?? apps/backend/prisma/migrations/20261028000000_shared_business_schema/
+?? apps/backend/prisma/migrations/20261028010000_history_and_code_guards/
+?? apps/backend/prisma/migrations/20261028020000_financial_identity_guards/
+?? apps/backend/src/common/middleware/auth.ts
+?? apps/backend/src/common/middleware/csrf.ts
+?? apps/backend/src/common/utilities/cookies.ts
+?? apps/backend/src/infrastructure/db/city-sequence.ts
+?? apps/backend/src/infrastructure/db/money-input.ts
+?? apps/backend/src/modules/audit/audit.service.ts
+?? apps/backend/src/modules/auth/auth.repository.ts
+?? apps/backend/src/modules/auth/auth.router.ts
+?? apps/backend/src/modules/auth/auth.service.ts
+?? apps/backend/src/modules/auth/authorization.ts
+?? apps/backend/src/modules/auth/bootstrap.ts
+?? apps/backend/src/modules/auth/password.ts
+?? apps/backend/src/modules/auth/token.ts
+?? apps/backend/src/types/auth.ts
+?? apps/backend/tests/audit.test.ts
+?? apps/backend/tests/auth.test.ts
+?? apps/backend/tests/integration/authentication.test.ts
+?? apps/backend/tests/integration/business-schema.test.ts
+?? apps/frontend/public/auth/
+?? apps/frontend/public/fonts/Inter-LICENSE.txt
+?? apps/frontend/public/fonts/InterVariable.woff2
+?? apps/frontend/public/fonts/Noto-OFL.txt
+?? apps/frontend/public/fonts/NotoNastaliqUrdu-Bold.ttf
+?? apps/frontend/public/fonts/NotoNastaliqUrdu-Regular.ttf
+?? apps/frontend/src/features/auth/auth-shell.tsx
+?? apps/frontend/src/features/auth/auth-status-pages.tsx
+?? apps/frontend/src/features/auth/auth.css
+?? apps/frontend/src/features/auth/brand-logo.tsx
+?? apps/frontend/src/features/auth/change-password-page.tsx
+?? apps/frontend/src/features/auth/first-login-page.tsx
+?? apps/frontend/src/features/auth/form-controls.tsx
+?? apps/frontend/src/features/auth/index.ts
+?? apps/frontend/src/features/auth/password-form.tsx
+?? apps/frontend/src/features/auth/protected-route.tsx
+?? apps/frontend/src/features/auth/staff-login-page.tsx
+?? apps/frontend/src/features/auth/use-auth.tsx
+?? docs/authentication.md
+?? docs/evidence/
+?? e2e/auth.config.ts
+?? e2e/auth.setup.ts
+?? e2e/specs/auth.spec.ts
+?? packages/contracts/src/auth/auth.schema.ts

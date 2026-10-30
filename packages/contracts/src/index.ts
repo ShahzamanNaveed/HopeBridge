@@ -18,3 +18,6 @@ export const healthSchema = z.object({
   database: z.enum(['up', 'down']),
 });
 export type Health = z.infer<typeof healthSchema>;
+
+export * from './auth/auth.schema.js';
+export * from './admin/admin.schema.js';

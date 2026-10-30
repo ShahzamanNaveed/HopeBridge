@@ -1,0 +1,200 @@
+.admin-module {
+  min-width: 0;
+}
+.admin-module button,
+.admin-modal button {
+  cursor: pointer;
+}
+.admin-module button:disabled,
+.admin-modal button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-block: 24px;
+}
+.admin-filters label,
+.admin-status-filter {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+.admin-filters input,
+.admin-filters select,
+.admin-status-filter input,
+.admin-status-filter select,
+.admin-form input,
+.admin-form select {
+  border: 1px solid #e2e8e5;
+  border-radius: 10px;
+  padding: 12px;
+  background: white;
+  color: #1c2933;
+  min-width: 0;
+  width: 100%;
+}
+.admin-filters label {
+  flex: 1 1 200px;
+}
+.admin-status-filter {
+  max-width: 360px;
+  margin-block: 16px;
+}
+.admin-table-scroll {
+  overflow: auto;
+  background: white;
+  border-radius: 14px;
+  margin-block: 20px;
+}
+.admin-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: start;
+  font-size: 13px;
+}
+.admin-table-scroll th,
+.admin-table-scroll td {
+  padding: 16px;
+  border-bottom: 1px solid #e2e8e5;
+  text-align: start;
+  vertical-align: top;
+}
+.admin-table-scroll th {
+  color: #64748b;
+  background: #edf3f1;
+}
+.admin-table-scroll small,
+.admin-history small,
+.admin-activity small {
+  display: block;
+  color: #64748b;
+  margin-block-start: 8px;
+  overflow-wrap: anywhere;
+}
+.admin-pager,
+.admin-tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block: 20px;
+}
+.admin-pager {
+  justify-content: space-between;
+}
+.admin-modal {
+  border: 0;
+  border-radius: 20px;
+  padding: 24px;
+  width: min(840px, calc(100vw - 24px));
+  max-height: 90dvh;
+  color: #1c2933;
+  background: #f7f9f7;
+  box-shadow: 0 24px 80px #172b4540;
+}
+.admin-modal::backdrop {
+  background: #172b4580;
+}
+.admin-modal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.admin-modal-heading h2 {
+  font-size: 22px;
+  margin: 0;
+}
+.admin-form {
+  display: grid;
+  gap: 16px;
+  margin-block: 24px;
+}
+.admin-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+.admin-confirm {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  margin-block: 16px;
+}
+.admin-confirm input {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.admin-error {
+  color: #a32318;
+}
+.admin-secret {
+  display: block;
+  user-select: all;
+  overflow-wrap: anywhere;
+  background: white;
+  padding: 24px;
+  border: 1px solid #148c78;
+  border-radius: 12px;
+  font-family: monospace;
+}
+.admin-modal pre {
+  overflow: auto;
+  max-height: 300px;
+  background: white;
+  padding: 16px;
+  direction: ltr;
+  text-align: left;
+}
+.admin-detail {
+  overflow-wrap: anywhere;
+}
+.admin-detail div {
+  margin-block: 12px;
+}
+.admin-detail dd {
+  margin-inline: 0;
+}
+.admin-count {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  margin-block: 14px;
+  font-size: 13px;
+}
+.admin-count meter {
+  flex: 1;
+  max-width: 160px;
+  accent-color: #148c78;
+}
+.admin-module .admin-distribution,
+.admin-module .admin-activity {
+  height: auto;
+  min-height: 205px;
+}
+.admin-activity ul,
+.admin-history {
+  padding-inline-start: 18px;
+}
+.admin-activity li,
+.admin-history li {
+  margin-block: 14px;
+  font-size: 13px;
+}
+@media (max-width: 600px) {
+  .admin-modal {
+    padding: 18px;
+  }
+  .admin-table-scroll th,
+  .admin-table-scroll td {
+    padding: 12px;
+  }
+  .admin-count {
+    flex-wrap: wrap;
+  }
+}

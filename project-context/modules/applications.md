@@ -8,7 +8,7 @@ Dependencies: authoritative branches and members application ports, authorizatio
 
 Planned APIs (proposed, no routes implemented): Application submission and HR review. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Applicants, branches, reviewers and resulting members.
+Database relationships (initial DB-01 physical contract in docs/database.md): Applicants, branches, reviewers and resulting members.
 
 Official Requirements: Volunteer application and HR review/member workflows.
 
@@ -35,7 +35,7 @@ Persistence invariants: Successful public submission atomically creates one Pend
 
 ## APP-001 to APP-008 - DECIDED public application contract
 
-Approved HWF rules; no public form/API/schema/tests implemented. Existing HR-001 to HR-010 and HWF-XM-001 to HWF-XM-004 remain authoritative for decisions and identity.
+Approved HWF rules; no public form/API/full workflow tests implemented; DB-01 storage/constraint tests now exist. Existing HR-001 to HR-010 and HWF-XM-001 to HWF-XM-004 remain authoritative for decisions and identity.
 
 ### Fields and validation
 
@@ -87,7 +87,7 @@ Approved HWF rules; no public form/API/schema/tests implemented. Existing HR-001
 
 Integration ownership: established backend/frontend module `applications`. Own intake/contact/consent/duplicate screening/application history and HR decisions. Coordinate members creation/reversal/reactivation through transaction-aware commands; no members repository import, second commit or second ID allocation on reacceptance. Email follows commit. See [shared integration contracts](../../docs/architecture.md) and [API categories](../../docs/api.md). These are planned interfaces, not implemented services.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status: DB-01 shared storage is implemented and PostgreSQL-tested; module business services/endpoints/UI and full acceptance remain planned, not deployed. See [physical model/consumer contract](../../docs/database.md) and [DB-01 evidence](../12-development-handoff.md).
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 

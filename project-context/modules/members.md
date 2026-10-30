@@ -8,7 +8,7 @@ Dependencies: authoritative branches, authorization and shared audit. Applicatio
 
 Planned APIs (proposed, no routes implemented): Member listing and approved updates. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Members and approved applications.
+Database relationships (initial DB-01 physical contract in docs/database.md): Members and approved applications.
 
 Official Requirements: Approved member management.
 
@@ -32,7 +32,7 @@ Integration ownership: established backend/frontend module `members`. Own member
 
 Documentation coverage gap: the known member-management scope includes team/operational-role/status management and search/filter. Existing workflow specifies scoped search/filter and Active-only permitted assignment with audited endings, but exact searchable/filterable fields, team/operational-role taxonomy, assignment action fields/validation, general edit/status/archival authority and independent-module state conflicts are not finalized. An operational volunteer role is not a sixth staff role. Obtain owner decisions for those affected actions; do not invent grants or declare full member-module readiness.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status: DB-01 shared storage is implemented and PostgreSQL-tested; module business services/endpoints/UI and full acceptance remain planned, not deployed. See [physical model/consumer contract](../../docs/database.md) and [DB-01 evidence](../12-development-handoff.md).
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures. Planned acceptance criteria (not implemented/passing tests):
 

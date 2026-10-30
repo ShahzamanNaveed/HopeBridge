@@ -8,7 +8,7 @@ Dependencies: collections canonical financial projections, reports revision/snap
 
 Planned APIs (proposed, no routes implemented): Scoped summary and reporting endpoints. Final paths and schemas await design approval.
 
-Planned data relationships (not a finalized ERD): Derived aggregates over collections and reports; exact source/approval filters depend on each metric.
+Database relationships (initial DB-01 physical contract in docs/database.md): Derived aggregates over collections and reports; exact source/approval filters depend on each metric.
 
 Official Requirements: Head Office dashboard with correct figures, monthly trends and unsent collections; CSV/PDF financial export scope is DECIDED under EXP-001 to EXP-004; output implementation remains planned.
 
@@ -70,7 +70,7 @@ Future checks cover correct same-branch cumulative offset/other-branch exclusion
 
 Integration ownership: established backend/frontend module `dashboard`. Read scoped canonical measures/trends and orchestrate EXP financial CSV/PDF with same authorized effective revision/exact totals. No monetary source writes or invented official KPIs; technical renderers are adapters, not a second financial module. See [shared integration contracts](../../docs/architecture.md) and [API categories](../../docs/api.md). These are planned interfaces, not implemented services.
 
-Current status: planned; no business implementation, tests or deployment. Placeholder directories establish ownership only.
+Current status: DB-01 shared storage is implemented and PostgreSQL-tested; module business services/endpoints/UI and full acceptance remain planned, not deployed. See [physical model/consumer contract](../../docs/database.md) and [DB-01 evidence](../12-development-handoff.md).
 
 Verification plan: approved happy-path and invalid-state tests, forbidden-role and cross-branch tests, database integration and relevant acceptance fixtures.
 
