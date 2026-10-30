@@ -1,5 +1,7 @@
 # Current state
 
+A-03 addition (2026-10-30): Super Admin staff/branch/lead coordinators, database-backed administrative overview and organization-wide sanitized audit UI/API are implemented locally. Verification, limitations and B shared frontend review are in the single handoff ledger and [module contract](../docs/super-admin.md). This supersedes the historical Users/Branches placeholder statements below; unrelated modules remain planned.
+
 ## Authoritative entry points
 
 Start at [AGENTS.md](../AGENTS.md), then read [11-team-ownership.md](11-team-ownership.md) for A/B allocation and single-editor shared files, and [12-development-handoff.md](12-development-handoff.md) for the SINGLE detailed development progress/next-action/handoff ledger. Identify the active profile explicitly before business implementation; no personal mapping is recorded. This file is a high-level baseline, not a duplicate per-module ledger. Verify status against actual code/Git/evidence in every new session.

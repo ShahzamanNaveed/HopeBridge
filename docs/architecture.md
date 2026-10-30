@@ -1,5 +1,7 @@
 # Architecture
 
+A-03 addition (2026-10-30): a Super Admin application coordinator composes explicit transaction-capable Users/Branches/Audit ports, supplied by the router composition root. Repositories retain domain queries; no runtime cross-domain repository import or B financial dashboard dependency. Existing auth/audit/shared layout are reused. [Implementation contract](super-admin.md).
+
 Current A-02 addition (2026-10-29): real auth repository/service/router, PostgreSQL sessions, transactional permission ports and EN/UR React authentication are implemented/tested locally on the existing DB-01 models. [Authentication implementation and consumer contract](authentication.md) supersedes earlier statements below that auth/client mutations were still only planned; other domain implementations and B consumer acceptance remain pending.
 
 Accepted: modular monolith using npm workspaces. React/Vite in apps/frontend communicates with versioned Express HTTP endpoints in apps/backend. Both consume packages/contracts. PostgreSQL is the source of truth, accessed through Prisma and its PostgreSQL driver adapter. Production Express serves frontend assets on the same origin; Vite proxies requests during development.

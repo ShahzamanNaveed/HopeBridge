@@ -1,5 +1,7 @@
 # HTTP conventions
 
+A-03 addition (2026-10-30): Super Admin administrative APIs now exist under `/api/v1/admin`; exact routes/Zod DTOs/pagination/CSRF/errors and scope are in [Super Admin contract](super-admin.md). Existing auth reset is reused. Historical planned/no-audit-endpoint statements below do not describe this newly implemented Super Admin subset; other domains remain planned.
+
 A-02 (2026-10-29) implements staff authentication under `/api/v1/auth`; see [exact methods, DTOs, errors, CSRF/Origin and integration contracts](authentication.md). Earlier planned business contracts below remain requirements for their future modules, not claims that authentication is still absent.
 
 GET /api/v1 returns a foundation/version descriptor. GET /health queries PostgreSQL; 200 means reachable, 503 means unavailable. Responses are {data: ...}. Errors are {error: {code, message, requestId}}. Every request receives a generated X-Request-ID. Unknown /api routes always return JSON rather than the SPA fallback.

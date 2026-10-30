@@ -109,9 +109,14 @@ for (const role of Object.keys(roleRoots) as (keyof typeof roleRoots)[])
     await navigation
       .getByRole('link', { name: en.layout.nav[target], exact: true })
       .click();
-    await expect(
-      page.getByText(en.layout.moduleUnavailable, { exact: true }),
-    ).toBeVisible();
+    if (role === 'SUPER_ADMIN')
+      await expect(
+        page.getByRole('button', { name: en.admin.createStaff, exact: true }),
+      ).toBeVisible();
+    else
+      await expect(
+        page.getByText(en.layout.moduleUnavailable, { exact: true }),
+      ).toBeVisible();
     const forbidden = role === 'HR_LEAD' ? '/staff/finance' : '/staff/hr';
     await page.goto(forbidden);
     await expect(page).toHaveURL(/staff\/access-denied$/);

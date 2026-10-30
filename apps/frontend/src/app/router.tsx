@@ -14,6 +14,12 @@ import { roleRoots } from '../layouts/staff/role-navigation';
 import { PublicPage } from '../pages/public/public-page';
 import { ErrorPage } from '../components/feedback/error-page';
 import {
+  AdminDashboard,
+  AdminStaffPage,
+  AdminBranchesPage,
+  AdminAuditPage,
+} from '../features/admin/admin-pages';
+import {
   StaffLoginPage,
   FirstLoginPage,
   ChangePasswordPage,
@@ -73,7 +79,22 @@ export const router = createBrowserRouter([
         path,
         element: <StaffLayout />,
         children: [
-          { index: true, element: <StaffDashboard /> },
+          {
+            index: true,
+            element:
+              role === 'SUPER_ADMIN' ? <AdminDashboard /> : <StaffDashboard />,
+          },
+          ...(role === 'SUPER_ADMIN'
+            ? [
+                { path: 'staff-accounts', element: <AdminStaffPage /> },
+                { path: 'branches', element: <AdminBranchesPage /> },
+                {
+                  path: 'lead-assignments',
+                  element: <AdminBranchesPage assignments />,
+                },
+                { path: 'audit', element: <AdminAuditPage /> },
+              ]
+            : []),
           { path: ':module', element: <StaffModulePage /> },
         ],
       },

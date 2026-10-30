@@ -95,13 +95,15 @@ const allowed = new Set([
   'volunteerid',
   'code',
 ]);
-function sanitize(
+export function sanitizeAuditValue(
   value: Prisma.InputJsonValue,
   depth = 0,
 ): Prisma.InputJsonValue {
   if (depth > 8) return '[REDACTED]';
   if (Array.isArray(value))
-    return value.map((v) => (v === null ? null : sanitize(v, depth + 1)));
+    return value.map((v) =>
+      v === null ? null : sanitizeAuditValue(v, depth + 1),
+    );
   if (typeof value === 'object' && value !== null) {
     return Object.fromEntries(
       Object.entries(value).map(([key, v]) => [
@@ -110,7 +112,7 @@ function sanitize(
           ? '[REDACTED]'
           : v === null
             ? null
-            : sanitize(v as Prisma.InputJsonValue, depth + 1),
+            : sanitizeAuditValue(v as Prisma.InputJsonValue, depth + 1),
       ]),
     );
   }
@@ -138,9 +140,9 @@ export async function appendAudit(
       entityType: input.entityType,
       entityId: input.entityId,
       branchId: input.branchId,
-      before: input.before ? sanitize(input.before) : undefined,
-      after: input.after ? sanitize(input.after) : undefined,
-      metadata: input.metadata ? sanitize(input.metadata) : undefined,
+      before: input.before ? sanitizeAuditValue(input.before) : undefined,
+      after: input.after ? sanitizeAuditValue(input.after) : undefined,
+      metadata: input.metadata ? sanitizeAuditValue(input.metadata) : undefined,
     },
     select: { id: true, createdAt: true },
   });

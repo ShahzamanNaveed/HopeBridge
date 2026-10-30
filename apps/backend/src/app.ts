@@ -10,6 +10,7 @@ import { HttpError } from './common/errors/http-error.js';
 import { errorHandler } from './common/middleware/error-handler.js';
 import { authRouter } from './modules/auth/auth.router.js';
 import type { AuthService } from './modules/auth/auth.service.js';
+import { adminRouter } from './modules/admin/admin.router.js';
 export function createApp(options: {
   checkDatabase: () => Promise<void>;
   frontendPath?: string;
@@ -78,6 +79,11 @@ export function createApp(options: {
         options.auth.secure,
         options.auth.loginLimit,
       ),
+    );
+  if (options.auth)
+    app.use(
+      '/api/v1/admin',
+      adminRouter(options.auth.service, options.auth.origins),
     );
   app.get('/api/v1', (_req, res) =>
     res.json({

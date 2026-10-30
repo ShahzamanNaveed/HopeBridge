@@ -108,6 +108,17 @@ export class AuthService {
     csrf?: string,
   ) {
     return this.repository.transaction(async (tx) => {
+      // Acquire the shared administrative lock BEFORE actor row locks. All SA
+      // coordinators/reset use this order, preventing actor/target lock inversion.
+      if (
+        [
+          'staff.manage',
+          'branch.manage',
+          'branch.assign',
+          'audit.read',
+        ].includes(action)
+      )
+        await tx.$queryRaw`SELECT pg_advisory_xact_lock(72942001)::text`;
       const { session, user, now } = await this.repository.session(tx, token);
       if (csrf !== undefined) this.checkCsrf(session.csrfTokenHash, csrf);
       authorize(user, action, branchId);
@@ -222,6 +233,7 @@ export class AuthService {
     const temporaryPassword = generateTemporaryPassword();
     const passwordHash = await hashPassword(temporaryPassword);
     const result = await this.repository.transaction(async (tx) => {
+      await tx.$queryRaw`SELECT pg_advisory_xact_lock(72942001)::text`;
       // Lock actor/target in deterministic order to serialize reset/password/login.
       const raw = token
         ? await this.repository.sessionByToken(tx, token)

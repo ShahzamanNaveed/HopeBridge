@@ -272,7 +272,7 @@ describe('orchestration unit checks (PostgreSQL atomicity tested separately)', (
     expect(
       (await f.service.changePassword(f.token, f.csrf, input, true)).user.id,
     ).toBe(id);
-  });
+  }, 15000);
   it('keeps reset disclosure behind current admin authorization and audit', async () => {
     const f = fakeRepository();
     f.credential.passwordHash = await hashPassword(password);

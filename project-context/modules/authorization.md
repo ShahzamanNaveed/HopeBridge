@@ -1,5 +1,7 @@
 # authorization
 
+A-03 implementation (2026-10-30): Super Admin coordinators now enforce current role/CSRF/Origin/version, last-active-admin and eligible replacement with session revocation and same-transaction audit. Existing shared auth ports are reused with consistent advisory-before-row lock ordering. [Scope and evidence](../../docs/super-admin.md); unrelated permissions/services remain unchanged.
+
 Purpose: Deny-by-default role and branch access.
 
 Requirements/responsibilities: implement this scope from the supplied brief with backend validation, server-enforced permissions and appropriate branch scoping. Do not infer undocumented rules.

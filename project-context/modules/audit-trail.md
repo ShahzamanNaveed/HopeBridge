@@ -1,5 +1,7 @@
 # audit-trail
 
+A-03 implementation (2026-10-30): organization-wide active Super Admin list/detail/history UI and API now re-sanitize persisted audit JSON. Bounded pagination/search/domain/action/actor/branch/date filters are defined in [the module contract](../../docs/super-admin.md). Other-role scoped readers, retention and audit-file export remain future work; no edit/delete/export endpoint. Earlier no-read-service claims below are historical.
+
 Purpose: Traceable critical mutations and report transitions.
 
 Requirements/responsibilities: implement this scope from the supplied brief with backend validation, server-enforced permissions and appropriate branch scoping. Do not infer undocumented rules.

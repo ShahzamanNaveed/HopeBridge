@@ -3,6 +3,7 @@ import { HttpError } from '../../common/errors/http-error.js';
 
 // Action grants only. Domain services must additionally validate state and record scope.
 const grants = {
+  'audit.read': ['SUPER_ADMIN'],
   'staff.reset': ['SUPER_ADMIN'],
   'staff.manage': ['SUPER_ADMIN'],
   'branch.manage': ['SUPER_ADMIN'],

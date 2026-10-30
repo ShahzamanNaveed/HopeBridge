@@ -1,5 +1,7 @@
 # branches
 
+A-03 implementation (2026-10-30): real Super Admin branch list/detail/create/edit/lifecycle/assignment/replacement APIs and EN/UR screens consume existing DB-01 storage and auth/audit. [Exact interface, transaction ports and remaining limits](../../docs/super-admin.md). Public branch API and B financial workflows remain unimplemented. Earlier planned-service references below are historical; approved policies unchanged.
+
 Purpose: Branch registration and lifecycle.
 
 Requirements/responsibilities: implement this scope from the supplied brief with backend validation, server-enforced permissions and appropriate branch scoping. Do not infer undocumented rules.

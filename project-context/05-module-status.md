@@ -1,5 +1,7 @@
 # Module status overview
 
+A-03 addition (2026-10-30): Super Admin staff management, branches/lifecycle/lead assignment, administrative overview and sanitized audit viewer have local source implementation. See [contract](../docs/super-admin.md) and the single handoff ledger for actual verification/status; no B Finance/CMS implementation or deployment is claimed.
+
 A-02 addition (2026-10-29): authentication is locally TESTED for its documented login/session/credential/UI scope. Detailed commands, source/design evidence, limitations and B handoff are in [the single ledger](12-development-handoff.md); no merged integration or deployment is claimed. Earlier baseline paragraphs below remain historical.
 
 The SINGLE authoritative detailed module/progress table is [12-development-handoff.md](12-development-handoff.md). [11-team-ownership.md](11-team-ownership.md) is the A/B module/shared-file authority; [AGENTS.md](../AGENTS.md) is onboarding. Do not maintain a second per-module status table here.
